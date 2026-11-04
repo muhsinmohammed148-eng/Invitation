@@ -57,11 +57,6 @@
     $("calSheet").hidden = false;
   }));
   $("calClose")?.addEventListener("click", () => { $("calSheet").hidden = true; });
-  $("rsvpForm")?.addEventListener("submit", (event) => {
-    event.preventDefault(); const data = Object.fromEntries(new FormData(event.currentTarget));
-    localStorage.setItem("wedding-rsvp", JSON.stringify(data)); event.currentTarget.reset();
-    set("rsvpStatus", data.attending === "yes" ? `Thank you, ${data.name}. We cannot wait to celebrate with you.` : `Thank you, ${data.name}. You will be in our hearts on the day.`);
-  });
 
   /* ── Countdown Timer ── */
   (function initCountdown() {

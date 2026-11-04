@@ -62,5 +62,14 @@
     "category": "travel",
     "icon": "☀",
     "order": 8
+  },
+  {
+    "id": "2026-11-04T13:48:16.817987",
+    "title": "Special Note",
+    "text": "Please dress warmly for the evening reception.",
+    "category": "general",
+    "icon": "🌙",
+    "order": 9,
+    "createdAt": "2026-11-04T13:48:16.817999"
   }
 ]
