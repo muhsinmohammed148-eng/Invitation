@@ -1,0 +1,66 @@
+[
+  {
+    "id": "info-1",
+    "title": "Getting Here",
+    "text": "The venue is located in Kochi, Kerala. The nearest airport is Cochin International Airport (COK), approximately 30 minutes from the venue. We recommend arranging transport in advance, and ride-sharing services are readily available.",
+    "category": "travel",
+    "icon": "✈",
+    "order": 1
+  },
+  {
+    "id": "info-2",
+    "title": "Accommodation",
+    "text": "We have reserved blocked rooms at nearby hotels for our guests. Please mention the wedding when booking to receive our special rate. A list of recommended hotels with booking links will be shared closer to the date.",
+    "category": "accommodation",
+    "icon": "🏨",
+    "order": 2
+  },
+  {
+    "id": "info-3",
+    "title": "Dress Code",
+    "text": "We kindly request formal or traditional attire. The ceremony will be held indoors with air conditioning, so light layers are recommended. Feel free to wear your finest outfits — we'd love to see you looking your best!",
+    "category": "dresscode",
+    "icon": "👔",
+    "order": 3
+  },
+  {
+    "id": "info-4",
+    "title": "Parking",
+    "text": "Complimentary parking is available at the venue. Valet services will also be provided for your convenience. Please arrive 30 minutes before the scheduled start time to allow for smooth entry.",
+    "category": "travel",
+    "icon": "🚗",
+    "order": 4
+  },
+  {
+    "id": "info-5",
+    "title": "Children Welcome",
+    "text": "We are delighted to welcome your little ones! A kids' corner with activities will be available during the reception to keep our youngest guests entertained.",
+    "category": "general",
+    "icon": "👶",
+    "order": 5
+  },
+  {
+    "id": "info-6",
+    "title": "Dietary Requirements",
+    "text": "Our menu includes vegetarian, vegan, and gluten-free options. If you have any specific dietary restrictions or allergies, please let us know when you RSVP so we can accommodate your needs.",
+    "category": "general",
+    "icon": "🍽",
+    "order": 6
+  },
+  {
+    "id": "info-7",
+    "title": "Gifts & Wishes",
+    "text": "Your presence is the greatest gift of all. However, if you wish to give a gift, a contribution to our honeymoon fund would be deeply appreciated. Details will be shared privately with close family and friends.",
+    "category": "general",
+    "icon": "🎁",
+    "order": 7
+  },
+  {
+    "id": "info-8",
+    "title": "Weather & What to Bring",
+    "text": "Kerala in March is warm and pleasant, with temperatures around 28-33°C (82-91°F). Light, breathable fabrics are recommended. An umbrella or light shawl may come in handy for indoor air conditioning.",
+    "category": "travel",
+    "icon": "☀",
+    "order": 8
+  }
+]
