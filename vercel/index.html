@@ -967,7 +967,7 @@ body.is-locked {
     overflow: hidden
 }
 
-.is-locked main, .is-locked footer, .is-locked .quick-nav {
+.is-locked main, .is-locked footer {
     filter: blur(8px);
     pointer-events: none;
     user-select: none
@@ -977,157 +977,182 @@ body.is-locked {
     position: fixed;
     inset: 0;
     z-index: 60;
-    display: grid;
-    place-items: center;
-    padding: 24px;
-    background: radial-gradient(ellipse at center, rgba(44, 42, 36, .96) 0%, rgba(26, 25, 20, .99) 100%);
-    transition: opacity .75s ease, visibility .75s ease
+    background: radial-gradient(ellipse at center, #2c2a24 0%, #1a1714 60%, #0f0e0b 100%);
+    transition: opacity 1s ease, visibility 1s ease;
 }
-
 .invitation-gate::before {
     content: "";
     position: absolute;
-    inset: 16px;
-    border: 1px solid rgba(225, 198, 139, .4);
-    pointer-events: none
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, rgba(201,166,107,.12) 0%, transparent 60%);
+    pointer-events: none;
 }
-
-.invitation-gate.opened {
-    opacity: 0;
-    visibility: hidden
-}
-
-.gate-card {
+.invitation-gate.opened { opacity: 0; visibility: hidden; pointer-events: none; }
+.gate-scene { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+.envelope-wrap { cursor: pointer; outline: none; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
+.envelope-wrap:focus-visible { box-shadow: 0 0 0 3px rgba(201,166,107,.55); }
+.envelope {
+    width: 100vw;
+    height: 100vh;
     position: relative;
-    width: min(100%, 420px);
-    min-height: 510px;
-    padding: 54px 30px;
-    border: 1px solid rgba(212, 188, 138, .5);
-    background: linear-gradient(145deg, rgba(255, 249, 233, .12) 0%, rgba(255, 249, 233, .04) 100%);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, .4), inset 0 0 60px rgba(184, 150, 90, .1), inset 0 1px 0 rgba(255, 255, 255, .08);
-    color: #f7ead2;
-    cursor: pointer;
+    overflow: hidden;
+}
+.envelope-left,
+.envelope-right {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(201,166,107,.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(201,166,107,.04) 0%, transparent 50%),
+        linear-gradient(180deg, #2c2a24 0%, #1f1d18 40%, #1a1714 100%);
+    z-index: 10;
+    transition: transform 1.2s cubic-bezier(.4, 0, .2, 1);
+    overflow: hidden;
+}
+.envelope-left {
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.envelope-right {
+    right: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 18px;
-    transition: transform .5s cubic-bezier(.2, .75, .2, 1), box-shadow .5s ease
+    justify-content: center;
 }
-
-.gate-card::before {
+.panel-pattern {
+    position: absolute; inset: 0; opacity: 0.03;
+    background-image:
+        repeating-linear-gradient(0deg, var(--gold) 0px, var(--gold) 1px, transparent 1px, transparent 40px),
+        repeating-linear-gradient(90deg, var(--gold) 0px, var(--gold) 1px, transparent 1px, transparent 40px);
+    pointer-events: none; z-index: 1;
+}
+.panel-border-frame {
+    position: absolute; top: 3%; bottom: 3%; left: 3%; right: 3%;
+    border: 1px solid rgba(201,166,107,.15);
+    pointer-events: none; z-index: 2;
+}
+.envelope-left .panel-border-frame { right: 5%; }
+.envelope-right .panel-border-frame { left: 5%; }
+.panel-ornament {
+    position: absolute;
+    width: clamp(40px, 8vw, 80px);
+    height: clamp(40px, 8vw, 80px);
+    pointer-events: none; z-index: 3;
+}
+.panel-ornament::before, .panel-ornament::after {
+    content: ""; position: absolute;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+}
+.panel-ornament-tl { top: 5%; left: 5%; }
+.panel-ornament-tl::before { top: 0; left: 0; width: 100%; height: 2px; }
+.panel-ornament-tl::after { top: 0; left: 0; width: 2px; height: 100%; }
+.panel-ornament-bl { bottom: 5%; left: 5%; }
+.panel-ornament-bl::before { bottom: 0; left: 0; width: 100%; height: 2px; }
+.panel-ornament-bl::after { bottom: 0; left: 0; width: 2px; height: 100%; }
+.panel-ornament-tr { top: 5%; right: 5%; }
+.panel-ornament-tr::before { top: 0; right: 0; width: 100%; height: 2px; }
+.panel-ornament-tr::after { top: 0; right: 0; width: 2px; height: 100%; }
+.panel-ornament-br { bottom: 5%; right: 5%; }
+.panel-ornament-br::before { bottom: 0; right: 0; width: 100%; height: 2px; }
+.panel-ornament-br::after { bottom: 0; right: 0; width: 2px; height: 100%; }
+.envelope-left::after {
     content: "";
     position: absolute;
-    inset: 9px;
-    border: 1px solid rgba(235, 212, 158, .26)
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 0%, var(--gold) 20%, var(--gold-light) 50%, var(--gold) 80%, transparent 100%);
+    z-index: 12;
 }
-
-.gate-card:hover {
-    transform: translateY(-8px) scale(1.015);
-    box-shadow: 0 42px 80px rgba(0, 0, 0, .5), inset 0 0 70px rgba(184, 150, 90, .16), inset 0 1px 0 rgba(255, 255, 255, .12)
-}
-
-.gate-flourish {
-    color: #e3c581;
-    font-size: 20px;
-    animation: twinkle 2.8s infinite
-}
-
-.gate-label, .gate-open {
-    font: 600 10px var(--sans);
-    letter-spacing: .26em;
-    text-transform: uppercase
-}
-
-.gate-card strong {
-    font-size: clamp(68px, 18vw, 108px);
-    font-weight: 400;
-    line-height: 1;
-    background: linear-gradient(180deg, #f5e6c8 0%, #d4bc8a 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 3px 12px rgba(184, 150, 90, .3))
-}
-
-.gate-names {
-    display: grid;
-    gap: 4px;
-    font: 24px/1.1 var(--serif);
-    text-align: center
-}
-
-.gate-names i {
-    font-size: 16px;
-    color: #d6b471
-}
-
-.gate-open {
-    position: relative;
-    margin-top: 20px;
-    color: #e9cc8e
-}
-
-.gate-open::after {
+.envelope-right::before {
     content: "";
-    display: block;
-    height: 1px;
-    background: #d6b471;
-    transform: scaleX(.72);
-    transform-origin: center;
-    transition: transform .3s ease
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 0%, var(--gold) 20%, var(--gold-light) 50%, var(--gold) 80%, transparent 100%);
+    z-index: 12;
 }
-
-.gate-card:hover .gate-open::after {
-    transform: scaleX(1)
-}
-
-.gate-open b {
-    font-size: 15px;
-    margin-left: 7px
-}
-
-.quick-nav {
-    position: fixed;
-    right: 16px;
+.envelope::before {
+    content: "";
+    position: absolute;
     top: 50%;
-    z-index: 25;
-    display: grid;
-    gap: 8px;
-    transform: translateY(-50%)
-}
-
-.quick-nav a {
-    padding: 9px 11px;
-    border: 1px solid rgba(184, 150, 90, .35);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(200px, 40vw, 400px);
+    height: clamp(200px, 40vw, 400px);
     border-radius: 999px;
-    background: rgba(250, 248, 243, .85);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 12px rgba(69, 58, 43, .08);
-    color: var(--olive);
-    font: 600 9px var(--sans);
-    letter-spacing: .12em;
-    text-decoration: none;
+    background: radial-gradient(circle, rgba(201,166,107,.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 11;
+}
+.wax-seal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: clamp(100px, 16vw, 180px);
+    height: clamp(100px, 16vw, 180px);
+    border-radius: 999px;
+    background: radial-gradient(circle at 35% 30%, #f0d89a 0%, #d4a855 25%, #c9a66b 50%, #a98246 80%, #8a6d3b 100%);
+    box-shadow: inset 0 3px 6px rgba(255,255,255,.4), inset 0 -4px 10px rgba(0,0,0,.22), 0 8px 24px rgba(120,86,30,.45), 0 0 60px rgba(201,166,107,.25);
+    border: 2px solid rgba(169,130,70,.5);
+    display: grid; place-items: center;
+    color: #fffdf5; font: 400 clamp(28px, 5vw, 56px)/1 var(--script);
+    letter-spacing: .02em; user-select: none;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+    animation: sealPulse 2.4s ease-in-out infinite;
+}
+.wax-seal::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.2);
+    pointer-events: none;
+}
+.wax-seal::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 999px;
+    border: 1px solid rgba(201,166,107,.3);
+    pointer-events: none;
+}
+@keyframes sealPulse { 0%,100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.06); } }
+.envelope-hint {
+    margin-top: clamp(30px, 5vh, 60px);
+    font: 600 clamp(11px, 1.4vw, 16px)/1 var(--sans);
+    letter-spacing: .3em;
     text-transform: uppercase;
-    transition: transform .25s ease, background .25s ease, border-color .25s ease
+    color: rgba(201,166,107,.5);
+    text-align: center;
+    animation: hintPulse 2s ease-in-out infinite;
+    z-index: 1;
 }
-
-.quick-nav a:hover {
-    transform: translateX(-5px);
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    border-color: var(--gold);
-    color: #fff
+@keyframes hintPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+.invitation-gate.open .envelope-left {
+    transform: translateX(-100%);
 }
-
-@media (max-width: 520px) {
-    .quick-nav {
-        right: 10px
-    }
-
-    .quick-nav a {
-        padding: 8px 9px;
-        font-size: 8px
-    }
+.invitation-gate.open .envelope-right {
+    transform: translateX(100%);
+}
+.invitation-gate.open .wax-seal {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.invitation-gate.open {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.6s ease 0.8s, visibility 0.6s ease 0.8s;
 }
 
 
@@ -1570,20 +1595,36 @@ body.is-locked {
     }
 }
 
+.music-toggle{position:fixed;left:16px;bottom:16px;z-index:70;border:1px solid rgba(201,166,107,.6);background:rgba(251,246,238,.92);color:#5a4630;border-radius:999px;padding:10px 14px;font:600 11px/1 var(--sans);letter-spacing:.08em;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.music-toggle:hover{background:#fff}
+
 </style>
 </head>
 <body class="is-locked">
 <div class="photo-atmosphere" aria-hidden="true"></div>
 <div class="petal-layer" id="petalLayer" aria-hidden="true"></div>
 <div class="invitation-gate" id="invitationGate">
-    <button class="gate-card" id="openInvitation" type="button"
-            onclick="document.body.classList.remove('is-locked');document.getElementById('invitationGate').classList.add('opened')"
-            aria-label="Open Murshida and Mohammed Muhsin's invitation"><span class="gate-flourish">✦</span><span
-            class="gate-label">Wedding invitation</span><strong class="script" id="gateMonogram">M &amp; M</strong><span
-            class="gate-names"><span id="gateBride">Murshida</span><i>&amp;</i><span
-            id="gateGroom">Mohammed Muhsin</span></span><span class="gate-open">Open invitation <b>→</b></span></button>
+    <div class="gate-scene" id="gateScene">
+        <div class="envelope-wrap" id="doorWrapper" role="button" tabindex="0" aria-label="Open Murshida and Mohammed Muhsin invitation">
+            <div class="envelope">
+                <div class="envelope-left">
+                    <div class="panel-ornament panel-ornament-tl"></div>
+                    <div class="panel-ornament panel-ornament-bl"></div>
+                    <div class="panel-border-frame"></div>
+                    <div class="panel-pattern"></div>
+                </div>
+                <div class="envelope-right">
+                    <div class="panel-ornament panel-ornament-tr"></div>
+                    <div class="panel-ornament panel-ornament-br"></div>
+                    <div class="panel-border-frame"></div>
+                    <div class="panel-pattern"></div>
+                    <p class="envelope-hint">Tap to open</p>
+                </div>
+                <div class="wax-seal" id="waxSeal"><span id="gateMonogram">M &amp; M</span></div>
+            </div>
+        </div>
+    </div>
 </div>
-<nav class="quick-nav" aria-label="Invitation sections"><a href="#celebration">Details</a><a href="#gallery">Gallery</a><a href="#wishes">Wishes</a></nav>
 <main>
     <section class="hero">
         <div class="hero-image"></div>
@@ -1727,13 +1768,13 @@ window.WEDDING = {
   bride: {
     first: "Murshida",
     last: "",
-    parents: "Daughter of her beloved family",
+    parents: "Daughter of Mr. Muhammed & Mrs. Sakeena",
   },
   groom: {
     first: "Muhsin",
     last: "",
     display: "Muhsin",
-    parents: "Son of his beloved family",
+    parents: "Son of Mr. Abdul Majeed & Mrs. Misriyya",
   },
   monogram: "M & M",
   tagline: "Together with their families, request the honour of your presence",
@@ -1879,8 +1920,16 @@ window.WEDDING = {
   const gate = $("invitationGate");
 
   function openInvitation() {
-    document.body.classList.remove("is-locked");
-    gate?.classList.add("opened");
+    // Add 'open' class to trigger door panels sliding + gate fade animation
+    gate?.classList.add("open");
+    // Start background music on user gesture (envelope open)
+    if (window._startMusicOnOpen) window._startMusicOnOpen();
+    // CSS handles: panels slide (1.2s) + gate fades (0.6s with 0.8s delay) = ~2.6s total
+    setTimeout(() => {
+      document.body.classList.remove("is-locked");
+      gate?.classList.add("opened");
+      gate?.classList.remove("open");
+    }, 2600);
     sessionStorage.setItem(invitationStateKey, "true");
   }
 
@@ -1910,13 +1959,8 @@ window.WEDDING = {
     const link = $(`${prefix}Map`); if (link) link.href = maps(event.mapsQuery || wedding.ceremony.mapsQuery);
   });
 
-  $("openInvitation")?.addEventListener("click", openInvitation);
-  $("openInvitation")?.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") openInvitation(); });
-  const reopenButton = document.createElement("a");
-  reopenButton.href = "#"; reopenButton.textContent = "Cover"; reopenButton.setAttribute("aria-label", "Reopen invitation cover");
-  reopenButton.addEventListener("click", reopenInvitation);
-  document.querySelector(".quick-nav")?.prepend(reopenButton);
-
+  $("doorWrapper")?.addEventListener("click", openInvitation);
+  $("doorWrapper")?.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") openInvitation(); });
   let activeEvent = wedding.ceremony;
   document.querySelectorAll("[data-calendar]").forEach((button) => button.addEventListener("click", () => {
     activeEvent = button.dataset.calendar === "reception" ? wedding.reception : wedding.ceremony;
@@ -2114,8 +2158,46 @@ window.WEDDING = {
   };
   for (let i = 0; i < 14; i += 1) window.setTimeout(petal, i * 130);
   window.setInterval(petal, 310);
+
+  /* ── Music toggle ── */
+  (function initMusic() {
+    const btn = $("musicToggle");
+    const audio = $("bgMusic");
+    if (!btn || !audio) return;
+    let musicStarted = false;
+    function setPlaying() {
+      btn.textContent = "🔊 Music";
+      btn.setAttribute("aria-label", "Pause music");
+    }
+    function setPaused() {
+      btn.textContent = "🔇 Music";
+      btn.setAttribute("aria-label", "Play music");
+    }
+    async function startMusic() {
+      if (musicStarted) return;
+      musicStarted = true;
+      try {
+        await audio.play();
+        setPlaying();
+      } catch (e) {
+        setPaused();
+      }
+    }
+    // Start music on first user interaction (envelope open)
+    window._startMusicOnOpen = startMusic;
+    btn.addEventListener("click", async () => {
+      try {
+        if (audio.paused) { await audio.play(); setPlaying(); }
+        else { audio.pause(); setPaused(); }
+      } catch (e) { setPaused(); }
+    });
+  })();
 })();
 
 </script>
+<audio id="bgMusic" loop preload="none">
+  <source src="assets/wedding-music.mp3" type="audio/mpeg">
+</audio>
+<button class="music-toggle" id="musicToggle" type="button" aria-label="Toggle music">🔇 Music</button>
 </body>
 </html>

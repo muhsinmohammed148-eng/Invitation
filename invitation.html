@@ -9,17 +9,41 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Manrope:wght@400;500;600&display=swap"
           rel="stylesheet">
+    <!-- Structured data for wedding event -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "Murshida & Muhsin Wedding",
+      "startDate": "2027-03-28T11:00:00+05:30",
+      "endDate": "2027-03-28T15:00:00+05:30",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "location": {
+        "@type": "Place",
+        "name": "Vista Convention Centre",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Malappuram",
+          "addressRegion": "Kerala",
+          "addressCountry": "IN"
+        }
+      },
+      "image": "assets/WhatsApp%20Image%202026-10-19%20at%2012.17.47%20PM.jpeg",
+      "description": "Join us for the wedding celebration of Murshida and Muhsin."
+    }
+    </script>
 <style>
 :root {
     --ink: #1a1714;
-    --olive: #2c2a24;
-    --paper: #faf8f3;
-    --sand: #ede6d8;
-    --line: #c9b99a;
-    --gold: #b8965a;
+    --olive: #1F4D3F;
+    --paper: #FBF6EE;
+    --sand: #F2DDD6;
+    --line: #C9A66B;
+    --gold: #C9A66B;
     --gold-light: #d4bc8a;
     --gold-dark: #8a6d3b;
-    --muted: #6b6358;
+    --muted: #5e564d;
     --serif: "Cormorant Garamond", Georgia, serif;
     --script: "Great Vibes", cursive;
     --sans: "Manrope", sans-serif
@@ -131,9 +155,20 @@ h1 i {
 .hero a {
     color: var(--ink);
     text-decoration: none;
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: .16em;
-    text-transform: uppercase
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 8px 20px;
+    border: 1px solid var(--gold);
+    border-radius: 999px;
+    transition: background .3s ease, color .3s ease, transform .3s ease
+}
+
+.hero a:hover {
+    background: var(--gold);
+    color: #fff;
+    transform: translateY(-2px)
 }
 
 .section {
@@ -237,7 +272,7 @@ h1 i {
 
 .date strong, .date small {
     display: block;
-    text-align: left
+    text-align: center
 }
 
 .date strong {
@@ -254,7 +289,7 @@ h1 i {
 
 .event-list {
     border-top: 1px solid var(--line);
-    text-align: left
+    text-align: center
 }
 
 .event {
@@ -262,7 +297,8 @@ h1 i {
     grid-template-columns:40px 1fr;
     gap: 15px;
     padding: 28px 0;
-    border-bottom: 1px solid var(--line)
+    border-bottom: 1px solid var(--line);
+    text-align: center
 }
 
 .marker {
@@ -295,8 +331,9 @@ h1 i {
 }
 
 .actions {
-    grid-column: 2;
+    grid-column: 1 / -1;
     display: flex;
+    justify-content: center;
     gap: 18px;
     margin-top: 3px
 }
@@ -352,7 +389,7 @@ h1 i {
 form {
     max-width: 510px;
     margin: 35px auto 0;
-    text-align: left;
+    text-align: center;
     display: grid;
     gap: 18px
 }
@@ -417,10 +454,16 @@ footer .script {
 }
 
 footer p {
-    margin: 5px 0;
+    margin: 8px 0;
     font-size: 10px;
     letter-spacing: .16em;
     text-transform: uppercase
+}
+
+footer p + p {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(212, 188, 138, .2);
 }
 
 .sheet {
@@ -845,7 +888,11 @@ footer p {
 .event-list {
     border: 0 !important;
     display: grid;
-    gap: 16px
+    gap: 16px;
+    grid-template-columns: 1fr;
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%
 }
 
 .event {
@@ -878,6 +925,17 @@ footer p {
 
 .event:hover::before {
     transform: translateX(140%)
+}
+
+@media (hover: none) {
+    .event::before {
+        display: none
+    }
+
+    .event:hover {
+        transform: none !important;
+        box-shadow: 0 12px 26px rgba(69, 58, 43, .1), inset 0 1px 0 rgba(255, 255, 255, .6) !important
+    }
 }
 
 .event:hover .marker {
@@ -967,167 +1025,192 @@ body.is-locked {
     overflow: hidden
 }
 
-.is-locked main, .is-locked footer, .is-locked .quick-nav {
-    filter: blur(8px);
+.is-locked main, .is-locked footer {
     pointer-events: none;
     user-select: none
 }
 
+/* ── 3D Invitation Gate with Envelope Opening ── */
 .invitation-gate {
     position: fixed;
     inset: 0;
     z-index: 60;
-    display: grid;
-    place-items: center;
-    padding: 24px;
-    background: radial-gradient(ellipse at center, rgba(44, 42, 36, .96) 0%, rgba(26, 25, 20, .99) 100%);
-    transition: opacity .75s ease, visibility .75s ease
+    background: radial-gradient(ellipse at center, #2c2a24 0%, #1a1714 60%, #0f0e0b 100%);
+    transition: opacity 1s ease, visibility 1s ease;
 }
-
 .invitation-gate::before {
     content: "";
     position: absolute;
-    inset: 16px;
-    border: 1px solid rgba(225, 198, 139, .4);
-    pointer-events: none
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, rgba(201,166,107,.12) 0%, transparent 60%);
+    pointer-events: none;
 }
-
-.invitation-gate.opened {
-    opacity: 0;
-    visibility: hidden
-}
-
-.gate-card {
+.invitation-gate.opened { opacity: 0; visibility: hidden; pointer-events: none; }
+.gate-scene { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+.envelope-wrap { cursor: pointer; outline: none; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
+.envelope-wrap:focus-visible { box-shadow: 0 0 0 3px rgba(201,166,107,.55); }
+.envelope {
+    width: 100vw;
+    height: 100vh;
     position: relative;
-    width: min(100%, 420px);
-    min-height: 510px;
-    padding: 54px 30px;
-    border: 1px solid rgba(212, 188, 138, .5);
-    background: linear-gradient(145deg, rgba(255, 249, 233, .12) 0%, rgba(255, 249, 233, .04) 100%);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, .4), inset 0 0 60px rgba(184, 150, 90, .1), inset 0 1px 0 rgba(255, 255, 255, .08);
-    color: #f7ead2;
-    cursor: pointer;
+    overflow: hidden;
+}
+.envelope-left,
+.envelope-right {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(201,166,107,.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(201,166,107,.04) 0%, transparent 50%),
+        linear-gradient(180deg, #2c2a24 0%, #1f1d18 40%, #1a1714 100%);
+    z-index: 10;
+    transition: transform 1.2s cubic-bezier(.4, 0, .2, 1);
+    overflow: hidden;
+}
+.envelope-left {
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.envelope-right {
+    right: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 18px;
-    transition: transform .5s cubic-bezier(.2, .75, .2, 1), box-shadow .5s ease
+    justify-content: center;
 }
-
-.gate-card::before {
+.panel-pattern {
+    position: absolute; inset: 0; opacity: 0.03;
+    background-image:
+        repeating-linear-gradient(0deg, var(--gold) 0px, var(--gold) 1px, transparent 1px, transparent 40px),
+        repeating-linear-gradient(90deg, var(--gold) 0px, var(--gold) 1px, transparent 1px, transparent 40px);
+    pointer-events: none; z-index: 1;
+}
+.panel-border-frame {
+    position: absolute; top: 3%; bottom: 3%; left: 3%; right: 3%;
+    border: 1px solid rgba(201,166,107,.15);
+    pointer-events: none; z-index: 2;
+}
+.envelope-left .panel-border-frame { right: 5%; }
+.envelope-right .panel-border-frame { left: 5%; }
+.panel-ornament {
+    position: absolute;
+    width: clamp(40px, 8vw, 80px);
+    height: clamp(40px, 8vw, 80px);
+    pointer-events: none; z-index: 3;
+}
+.panel-ornament::before, .panel-ornament::after {
+    content: ""; position: absolute;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+}
+.panel-ornament-tl { top: 5%; left: 5%; }
+.panel-ornament-tl::before { top: 0; left: 0; width: 100%; height: 2px; }
+.panel-ornament-tl::after { top: 0; left: 0; width: 2px; height: 100%; }
+.panel-ornament-bl { bottom: 5%; left: 5%; }
+.panel-ornament-bl::before { bottom: 0; left: 0; width: 100%; height: 2px; }
+.panel-ornament-bl::after { bottom: 0; left: 0; width: 2px; height: 100%; }
+.panel-ornament-tr { top: 5%; right: 5%; }
+.panel-ornament-tr::before { top: 0; right: 0; width: 100%; height: 2px; }
+.panel-ornament-tr::after { top: 0; right: 0; width: 2px; height: 100%; }
+.panel-ornament-br { bottom: 5%; right: 5%; }
+.panel-ornament-br::before { bottom: 0; right: 0; width: 100%; height: 2px; }
+.panel-ornament-br::after { bottom: 0; right: 0; width: 2px; height: 100%; }
+.envelope-left::after {
     content: "";
     position: absolute;
-    inset: 9px;
-    border: 1px solid rgba(235, 212, 158, .26)
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 0%, var(--gold) 20%, var(--gold-light) 50%, var(--gold) 80%, transparent 100%);
+    z-index: 12;
 }
-
-.gate-card:hover {
-    transform: translateY(-8px) scale(1.015);
-    box-shadow: 0 42px 80px rgba(0, 0, 0, .5), inset 0 0 70px rgba(184, 150, 90, .16), inset 0 1px 0 rgba(255, 255, 255, .12)
-}
-
-.gate-flourish {
-    color: #e3c581;
-    font-size: 20px;
-    animation: twinkle 2.8s infinite
-}
-
-.gate-label, .gate-open {
-    font: 600 10px var(--sans);
-    letter-spacing: .26em;
-    text-transform: uppercase
-}
-
-.gate-card strong {
-    font-size: clamp(68px, 18vw, 108px);
-    font-weight: 400;
-    line-height: 1;
-    background: linear-gradient(180deg, #f5e6c8 0%, #d4bc8a 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 3px 12px rgba(184, 150, 90, .3))
-}
-
-.gate-names {
-    display: grid;
-    gap: 4px;
-    font: 24px/1.1 var(--serif);
-    text-align: center
-}
-
-.gate-names i {
-    font-size: 16px;
-    color: #d6b471
-}
-
-.gate-open {
-    position: relative;
-    margin-top: 20px;
-    color: #e9cc8e
-}
-
-.gate-open::after {
+.envelope-right::before {
     content: "";
-    display: block;
-    height: 1px;
-    background: #d6b471;
-    transform: scaleX(.72);
-    transform-origin: center;
-    transition: transform .3s ease
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 0%, var(--gold) 20%, var(--gold-light) 50%, var(--gold) 80%, transparent 100%);
+    z-index: 12;
 }
-
-.gate-card:hover .gate-open::after {
-    transform: scaleX(1)
-}
-
-.gate-open b {
-    font-size: 15px;
-    margin-left: 7px
-}
-
-.quick-nav {
-    position: fixed;
-    right: 16px;
+.envelope::before {
+    content: "";
+    position: absolute;
     top: 50%;
-    z-index: 25;
-    display: grid;
-    gap: 8px;
-    transform: translateY(-50%)
-}
-
-.quick-nav a {
-    padding: 9px 11px;
-    border: 1px solid rgba(184, 150, 90, .35);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(200px, 40vw, 400px);
+    height: clamp(200px, 40vw, 400px);
     border-radius: 999px;
-    background: rgba(250, 248, 243, .85);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 12px rgba(69, 58, 43, .08);
-    color: var(--olive);
-    font: 600 9px var(--sans);
-    letter-spacing: .12em;
-    text-decoration: none;
+    background: radial-gradient(circle, rgba(201,166,107,.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 11;
+}
+.wax-seal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: clamp(100px, 16vw, 180px);
+    height: clamp(100px, 16vw, 180px);
+    border-radius: 999px;
+    background: radial-gradient(circle at 35% 30%, #f0d89a 0%, #d4a855 25%, #c9a66b 50%, #a98246 80%, #8a6d3b 100%);
+    box-shadow: inset 0 3px 6px rgba(255,255,255,.4), inset 0 -4px 10px rgba(0,0,0,.22), 0 8px 24px rgba(120,86,30,.45), 0 0 60px rgba(201,166,107,.25);
+    border: 2px solid rgba(169,130,70,.5);
+    display: grid; place-items: center;
+    color: #fffdf5; font: 400 clamp(28px, 5vw, 56px)/1 var(--script);
+    letter-spacing: .02em; user-select: none;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+    animation: sealPulse 2.4s ease-in-out infinite;
+}
+.wax-seal::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.2);
+    pointer-events: none;
+}
+.wax-seal::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 999px;
+    border: 1px solid rgba(201,166,107,.3);
+    pointer-events: none;
+}
+@keyframes sealPulse { 0%,100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.06); } }
+.envelope-hint {
+    margin-top: clamp(30px, 5vh, 60px);
+    font: 600 clamp(11px, 1.4vw, 16px)/1 var(--sans);
+    letter-spacing: .3em;
     text-transform: uppercase;
-    transition: transform .25s ease, background .25s ease, border-color .25s ease
+    color: rgba(201,166,107,.5);
+    text-align: center;
+    animation: hintPulse 2s ease-in-out infinite;
+    z-index: 1;
 }
-
-.quick-nav a:hover {
-    transform: translateX(-5px);
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-    border-color: var(--gold);
-    color: #fff
+@keyframes hintPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+.invitation-gate.open .envelope-left {
+    transform: translateX(-100%);
 }
-
-@media (max-width: 520px) {
-    .quick-nav {
-        right: 10px
-    }
-
-    .quick-nav a {
-        padding: 8px 9px;
-        font-size: 8px
-    }
+.invitation-gate.open .envelope-right {
+    transform: translateX(100%);
+}
+.invitation-gate.open .wax-seal {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.invitation-gate.open {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.6s ease 0.8s, visibility 0.6s ease 0.8s;
 }
 
 
@@ -1200,7 +1283,7 @@ body.is-locked {
 }
 
 .countdown-label {
-    font: 600 9px var(--sans);
+    font: 600 11px var(--sans);
     letter-spacing: .2em;
     text-transform: uppercase;
     color: var(--gold-light);
@@ -1239,7 +1322,7 @@ body.is-locked {
 .timeline-item {
     position: relative;
     padding: 0 40px 50px;
-    text-align: left;
+    text-align: center;
 }
 
 .timeline-item:last-child {
@@ -1252,7 +1335,7 @@ body.is-locked {
 
 .timeline-item:nth-child(even) {
     padding-right: calc(50% + 30px);
-    text-align: right;
+    text-align: center;
 }
 
 .timeline-dot {
@@ -1324,6 +1407,7 @@ body.is-locked {
     display: block;
     width: 100%;
     height: clamp(280px, 60vw, 500px);
+    aspect-ratio: 16/10;
     object-fit: cover;
     filter: saturate(.88) contrast(1.03);
     transition: filter .4s ease;
@@ -1487,7 +1571,7 @@ body.is-locked {
 #wishForm {
     display: grid;
     gap: 16px;
-    text-align: left;
+    text-align: center;
 }
 
 #wishForm > label {
@@ -1520,8 +1604,223 @@ body.is-locked {
     font-size: 13px;
 }
 
+.wish-char-count {
+    text-align: right;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: -10px;
+    margin-bottom: 4px;
+}
+
+.wish-form-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 12px;
+}
+
+#wishForm input:invalid:not(:placeholder-shown),
+#wishForm textarea:invalid:not(:placeholder-shown) {
+    border-color: #c0392b;
+}
+
+#wishForm input:valid:not(:placeholder-shown),
+#wishForm textarea:valid:not(:placeholder-shown) {
+    border-color: var(--gold);
+}
+
+.film video {
+    cursor: pointer;
+}
+
+.video-play-pause {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, .7);
+    background: rgba(0, 0, 0, .35);
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    transition: opacity .3s ease;
+    z-index: 2;
+}
+
+.film-frame:hover .video-play-pause {
+    opacity: 1;
+}
+
+.video-play-pause:hover {
+    background: rgba(0, 0, 0, .55);
+}
+
+/* ═══════════════════════════════════════════
+   TOP 5 QUICK WINS — Design Enhancements
+   ═══════════════════════════════════════════ */
+
+/* 1. Hero Frosted-Glass Card */
+.hero-card {
+    background: rgba(250, 248, 243, .55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(212, 188, 138, .35);
+    border-radius: 20px;
+    padding: 36px 32px 28px;
+    box-shadow: 0 16px 48px rgba(69, 58, 43, .12), inset 0 1px 0 rgba(255, 255, 255, .5);
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+/* 2. Section Gradient Dividers */
+.section-divider {
+    height: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-divider::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold-light) 30%, var(--gold) 50%, var(--gold-light) 70%, transparent 100%);
+}
+
+.section-divider::after {
+    content: "✦";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: var(--gold);
+    background: var(--paper);
+    padding: 0 16px;
+}
+
+.section-divider--dark::after {
+    background: var(--olive);
+}
+
+/* 3. Event Card Corner Flourishes */
+/* Using a dedicated corner element to avoid conflicting with ::before shimmer */
+.event-corner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+    opacity: .3;
+    transition: opacity .3s ease;
+}
+
+.event-corner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border-top: 2px solid var(--gold-light);
+    border-right: 2px solid var(--gold-light);
+    border-radius: 0 8px 0 0;
+}
+
+.event-corner::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 16px;
+    height: 16px;
+    border-top: 1px solid var(--gold);
+    border-right: 1px solid var(--gold);
+    border-radius: 0 4px 0 0;
+    opacity: .5;
+}
+
+.event:hover .event-corner {
+    opacity: .6;
+}
+
+/* 4. Wish Card Decorative Quote Marks (enhanced) */
+.wish-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.wish-card::before {
+    content: "\201C";
+    position: absolute;
+    top: -10px;
+    right: 16px;
+    font-size: 140px;
+    line-height: 1;
+    color: var(--gold);
+    opacity: .08;
+    font-family: var(--serif);
+    pointer-events: none;
+}
+
+.wish-card::after {
+    content: "\201D";
+    position: absolute;
+    bottom: -30px;
+    left: 16px;
+    font-size: 120px;
+    line-height: 1;
+    color: var(--gold);
+    opacity: .06;
+    font-family: var(--serif);
+    pointer-events: none;
+}
+
+/* 5. Staggered Scroll-Reveal Animations */
+.reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.2, .75, .2, 1);
+}
+
+.reveal-stagger.is-visible > *:nth-child(1) { transition-delay: .1s; }
+.reveal-stagger.is-visible > *:nth-child(2) { transition-delay: .2s; }
+.reveal-stagger.is-visible > *:nth-child(3) { transition-delay: .3s; }
+.reveal-stagger.is-visible > *:nth-child(4) { transition-delay: .4s; }
+.reveal-stagger.is-visible > *:nth-child(5) { transition-delay: .5s; }
+.reveal-stagger.is-visible > *:nth-child(6) { transition-delay: .6s; }
+.reveal-stagger.is-visible > *:nth-child(7) { transition-delay: .7s; }
+.reveal-stagger.is-visible > *:nth-child(8) { transition-delay: .8s; }
+
+.reveal-stagger.is-visible > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* ── Responsive ── */
 @media (max-width: 600px) {
+    .hero {
+        height: 600px !important;
+    }
+
+    .hero-image, .hero-shade {
+        bottom: 350px !important;
+    }
+
+    h1 .script {
+        font-size: clamp(36px, 10vw, 56px);
+    }
+
     .countdown {
         gap: 8px;
     }
@@ -1545,19 +1844,21 @@ body.is-locked {
 
     .timeline-item:nth-child(odd),
     .timeline-item:nth-child(even) {
-        padding-left: 44px;
+        padding-left: 36px;
         padding-right: 0;
-        text-align: left;
+        text-align: center;
     }
 
     .timeline-dot {
         left: 16px;
+        width: 12px;
+        height: 12px;
     }
 
     .carousel-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 18px;
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
     }
 
     .wish-card {
@@ -1570,42 +1871,85 @@ body.is-locked {
     }
 }
 
+/* Added for Muhsin & Murshida architecture alignment */
+.hero-sub{margin:10px 0 6px;font:600 12px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.arch-card{max-width:560px;margin:28px auto 0;padding:28px 22px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.55);box-shadow:0 10px 30px rgba(0,0,0,.04)}
+.date-pill{margin:18px auto 0;display:inline-block;padding:8px 14px;border:1px solid var(--gold);border-radius:999px;letter-spacing:.18em;font:600 12px var(--sans);color:var(--gold-dark)}
+.section-title-center{text-align:center}
+.couple-figure{margin:24px auto 0;max-width:520px;text-align:center}
+.couple-figure img{width:min(100%,420px);border-radius:999px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.couple-figure figcaption{margin-top:14px;color:var(--muted);font:20px/1.4 var(--serif)}
+.closing-mono{font-size:clamp(42px,10vw,64px);color:var(--gold);margin:18px 0 0}
+
+.music-toggle{position:fixed;left:16px;bottom:16px;z-index:70;border:1px solid rgba(201,166,107,.6);background:rgba(251,246,238,.92);color:#5a4630;border-radius:999px;padding:10px 14px;font:600 11px/1 var(--sans);letter-spacing:.08em;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.music-toggle:hover{background:#fff}
+
 </style>
 </head>
 <body class="is-locked">
 <div class="photo-atmosphere" aria-hidden="true"></div>
 <div class="petal-layer" id="petalLayer" aria-hidden="true"></div>
 <div class="invitation-gate" id="invitationGate">
-    <button class="gate-card" id="openInvitation" type="button"
-            onclick="document.body.classList.remove('is-locked');document.getElementById('invitationGate').classList.add('opened')"
-            aria-label="Open Murshida and Mohammed Muhsin's invitation"><span class="gate-flourish">✦</span><span
-            class="gate-label">Wedding invitation</span><strong class="script" id="gateMonogram">M &amp; M</strong><span
-            class="gate-names"><span id="gateBride">Murshida</span><i>&amp;</i><span
-            id="gateGroom">Mohammed Muhsin</span></span><span class="gate-open">Open invitation <b>→</b></span></button>
+    <div class="gate-scene" id="gateScene">
+        <div class="envelope-wrap" id="doorWrapper" role="button" tabindex="0" aria-label="Open Muhsin and Murshida invitation">
+            <div class="envelope">
+                <div class="envelope-left">
+                    <div class="panel-ornament panel-ornament-tl"></div>
+                    <div class="panel-ornament panel-ornament-bl"></div>
+                    <div class="panel-border-frame"></div>
+                    <div class="panel-pattern"></div>
+                </div>
+                <div class="envelope-right">
+                    <div class="panel-ornament panel-ornament-tr"></div>
+                    <div class="panel-ornament panel-ornament-br"></div>
+                    <div class="panel-border-frame"></div>
+                    <div class="panel-pattern"></div>
+                    <p class="envelope-hint">Tap to open</p>
+                </div>
+                <div class="wax-seal" id="waxSeal"><span id="gateMonogram">M &amp; M</span></div>
+            </div>
+        </div>
+    </div>
 </div>
-<nav class="quick-nav" aria-label="Invitation sections"><a href="#celebration">Details</a><a href="#gallery">Gallery</a><a href="#wishes">Wishes</a></nav>
 <main>
-    <section class="hero">
+    <section class="hero" id="gateway">
         <div class="hero-image"></div>
         <div class="hero-shade"></div>
-        <div class="hero-content shell"><p class="eyebrow light" id="coverTagline">Together with their families</p><span
-                class="spark">✦</span>
-            <h1><span class="script" id="brideName">Murshida</span><i>&amp;</i><span class="script" id="groomName">Mohammed Muhsin</span>
-            </h1>
-            <p class="hero-date" id="heroDate">Sunday, 28 March 2027</p><a href="#celebration">View the celebration
-                ↓</a></div>
+        <div class="hero-content shell">
+            <div class="hero-card">
+                <p class="eyebrow light" id="coverTagline">Together with their families</p><span class="spark">✦</span>
+                <h1><span class="script" id="brideName">Murshida</span><i>&amp;</i><span class="script" id="groomName">Muhsin</span></h1>
+                <p class="hero-sub">are getting married</p>
+                <p class="hero-date" id="heroDate">Sunday, 28 March 2027</p><a href="#welcome">View invitation ↓</a>
+            </div>
+        </div>
     </section>
-    <section class="section welcome shell"><p class="eyebrow">A celebration of love</p>
+    <div class="section-divider" aria-hidden="true"></div>
+    <section class="section welcome shell" id="welcome"><p class="eyebrow">A celebration of love</p>
         <h2>A new chapter,<br><em>with those we hold dear.</em></h2>
         <div class="rule">✦</div>
         <p class="intro" id="storyQuote">One bride, one groom — and a lifetime written as one.</p>
-        <p class="body-copy">With joyful hearts, we invite you to share in the beginning of our forever. Your presence
-            will make our day all the more meaningful.</p>
-        <div class="families"><p id="brideParents"></p><span></span>
-            <p id="groomParents"></p></div>
+        <div class="arch-card">
+            <p class="body-copy" id="welcomeLine">With joyful hearts, we invite you to share in the beginning of our forever.</p>
+            <div class="families"><p id="brideParents"></p><span></span><p id="groomParents"></p></div>
+            <p class="date-pill" id="welcomeDate">28 · 03 · 2027</p>
+        </div>
     </section>
 
-    <!-- Countdown Timer -->
+    <!-- Screen 4: Couple -->
+    <div class="section-divider" aria-hidden="true"></div>
+    <section class="portrait shell" id="couple">
+        <p class="eyebrow">The Couple</p>
+        <h2 class="section-title-center">Muhsin <em>&amp;</em> Murshida</h2>
+        <div class="rule">✦</div>
+        <figure class="couple-figure">
+            <img src="assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20style.png" alt="Muhsin and Murshida">
+            <figcaption id="coupleBlessing">With love and gratitude, we begin our forever.</figcaption>
+        </figure>
+    </section>
+
+    <!-- Screen 5: Countdown -->
+    <div class="section-divider" aria-hidden="true"></div>
     <section class="section shell countdown-section" id="countdown">
         <p class="eyebrow">Counting down</p>
         <h2>Until we say <em>I do</em></h2>
@@ -1620,99 +1964,77 @@ body.is-locked {
         </div>
     </section>
 
-    <!-- Our Story Timeline -->
-    <section class="section shell story-section" id="story">
-        <p class="eyebrow">Our journey</p>
-        <h2>How our <em>love story</em> began</h2>
+    <!-- Screen 6: Schedule -->
+    <div class="section-divider" aria-hidden="true"></div>
+    <section class="section shell story-section" id="schedule">
+        <p class="eyebrow">Schedule</p>
+        <h2>Wedding <em>program</em></h2>
         <div class="rule">✦</div>
         <div class="timeline" id="timeline"></div>
     </section>
-    <section class="film">
-        <div class="film-frame">
-            <video autoplay muted loop playsinline
-                   poster="assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20key%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20st.png">
-                <source src="assets/WhatsApp%20Video%202026-10-19%20at%2012.17.54%20PM.mp4" type="video/mp4">
-            </video>
-        </div>
-    </section>
-    <section class="section shell celebration" id="celebration"><p class="eyebrow">The celebration</p>
+
+    <!-- Screen 7: Venue -->
+    <div class="section-divider" aria-hidden="true"></div>
+    <section class="section shell celebration" id="venue"><p class="eyebrow">Venue</p>
         <h2>Save the date</h2>
         <div class="date"><span id="dateDay">28</span>
             <div><strong id="dateMonth">March</strong><small id="dateYear">Sunday · 2027</small></div>
         </div>
         <div class="event-list">
             <article class="event">
-                <div class="marker">01</div>
-                <div><p class="event-type" id="ceremonyTitle">Nikah Ceremony</p>
-                    <h3 id="ceremonyWhen"></h3>
-                    <p id="ceremonyWhere"></p>
-                    <p class="note" id="ceremonyNotes"></p></div>
-                <div class="actions"><a id="ceremonyMap" target="_blank" rel="noopener">Directions ↗</a>
-                    <button data-calendar="ceremony">Add to calendar</button>
-                </div>
-            </article>
-            <article class="event">
-                <div class="marker">02</div>
-                <div><p class="event-type" id="receptionTitle">Walima Reception</p>
-                    <h3 id="receptionWhen"></h3>
-                    <p id="receptionWhere"></p>
-                    <p class="note" id="receptionNotes"></p></div>
-                <div class="actions"><a id="receptionMap" target="_blank" rel="noopener">Directions ↗</a>
-                    <button data-calendar="reception">Add to calendar</button>
+                <div class="event-corner" aria-hidden="true"></div>
+                <div class="marker">✦</div>
+                <div><p class="event-type" id="eventTitle">Wedding Ceremony &amp; Walima Reception</p>
+                    <h3 id="eventWhen"></h3>
+                    <p id="eventWhere"></p>
+                    <p class="note" id="eventNotes"></p></div>
+                <div class="actions"><a id="eventMap" target="_blank" rel="noopener">View on map ↗</a>
+                    <button id="eventCalendar">Add to calendar</button>
                 </div>
             </article>
         </div>
     </section>
 
-    <section class="portrait shell">
-        <figure><img src="assets/WhatsApp%20Image%202026-10-19%20at%2012.17.47%20PM.jpeg"
-                     alt="Murshida and Mohammed Muhsin">
-            <figcaption>With love, <span class="script" id="footerMono">M &amp; M</span></figcaption>
-        </figure>
-    </section>
 
-    <!-- Gallery Carousel -->
-    <section class="section shell gallery-section" id="gallery">
-        <p class="eyebrow">Captured moments</p>
-        <h2>Our <em>gallery</em></h2>
-        <div class="rule">✦</div>
-        <div class="gallery-carousel" id="galleryCarousel">
-            <button class="carousel-btn prev" id="galleryPrev" aria-label="Previous image">‹</button>
-            <div class="gallery-track-wrapper">
-                <div class="gallery-track" id="galleryTrack"></div>
-            </div>
-            <button class="carousel-btn next" id="galleryNext" aria-label="Next image">›</button>
-        </div>
-        <div class="carousel-dots" id="galleryDots"></div>
-    </section>
 
-    <!-- Wishes Carousel -->
-    <section class="section shell wishes-section" id="wishes">
-        <p class="eyebrow">Words of love</p>
-        <h2>Wedding <em>wishes</em></h2>
+    <!-- Screen 9: RSVP -->
+    <div class="section-divider" aria-hidden="true"></div>
+    <section class="section shell wishes-section" id="rsvp">
+        <p class="eyebrow">RSVP</p>
+        <h2>Kindly <em>respond</em></h2>
         <div class="rule">✦</div>
-        <div class="wishes-carousel" id="wishesCarousel">
-            <button class="carousel-btn prev" id="wishesPrev" aria-label="Previous wish">‹</button>
-            <div class="wishes-track-wrapper">
-                <div class="wishes-track" id="wishesTrack"></div>
-            </div>
-            <button class="carousel-btn next" id="wishesNext" aria-label="Next wish">›</button>
-        </div>
-        <div class="carousel-dots" id="wishesDots"></div>
         <div class="wish-form-wrapper">
-            <p class="wish-form-title">Leave your <em>wish</em></p>
-            <form id="wishForm">
-                <label>Your name<input name="name" required placeholder="Your name"></label>
-                <label>Your wish<textarea name="wish" rows="3" required placeholder="Write your heartfelt wish..."></textarea></label>
-                <button class="submit">Send wish</button>
-                <p id="wishStatus"></p>
+            <p class="wish-form-note">Please let us know if you can join us.</p>
+            <form id="rsvpForm">
+                <label>Your name<input name="name" required placeholder="Your name" maxlength="100"></label>
+                <label>Number of guests<input name="guests" type="number" min="1" value="1" required></label>
+                <label>Attending
+                    <select name="attending" required>
+                        <option value="Yes">Yes, I’ll be there</option>
+                        <option value="No">Sorry, can’t make it</option>
+                    </select>
+                </label>
+                <label>Message (optional)<textarea name="message" rows="3" placeholder="Your message..."></textarea></label>
+                <button class="submit" type="submit">Send RSVP via WhatsApp</button>
+                <p id="rsvpStatus"></p>
             </form>
         </div>
+    </section>
+
+    <!-- Screen 10: Closing -->
+    <div class="section-divider" aria-hidden="true"></div>
+    <section class="section shell closing-section" id="closing">
+        <p class="eyebrow">With love</p>
+        <h2>We look forward to <em>seeing you</em></h2>
+        <div class="rule">✦</div>
+        <p class="body-copy">Thank you for being part of our story. See you on 28 March 2027.</p>
+        <p class="script closing-mono" id="closingMono">M &amp; M</p>
     </section>
 </main>
 <footer><span class="script" id="backMonogram">M &amp; M</span>
     <p id="footerHashtag">#MuhsinAndMurshida</p>
-    <p>28 March 2027</p></footer>
+    <p>28 March 2027</p>
+    <p style="font-size:9px;opacity:.6;margin-top:20px;">Made with ❤️ for Muhsin &amp; Murshida</p></footer>
 <div class="sheet" id="calSheet" hidden>
     <div class="card">
         <button id="calClose" aria-label="Close">×</button>
@@ -1721,83 +2043,80 @@ body.is-locked {
         <button id="calIcs">Apple / Outlook calendar</button>
     </div>
 </div>
+<audio id="bgMusic" loop preload="none">
+  <source src="assets/wedding-music.mp3" type="audio/mpeg">
+</audio>
+<button class="music-toggle" id="musicToggle" type="button" aria-label="Toggle music">🔇 Music</button>
 <script>
 /* ── Edit this file to personalize the invitation ── */
 window.WEDDING = {
   bride: {
     first: "Murshida",
     last: "",
-    parents: "Daughter of her beloved family",
+    parents: "Daughter of Mr. Muhammed & Mrs. Sakeena",
   },
   groom: {
     first: "Muhsin",
     last: "",
     display: "Muhsin",
-    parents: "Son of his beloved family",
+    parents: "Son of Mr. Abdul Majeed & Mrs. Misriyya",
   },
   monogram: "M & M",
   tagline: "Together with their families, request the honour of your presence",
-  quote: "One bride, one groom — and a lifetime written as one.",
+  quote: "With joyful hearts, we invite you to celebrate our wedding.",
   hashtag: "#MuhsinAndMurshida",
+  welcomeLine: "With joyful hearts, we invite you to share in the beginning of our forever. Your presence will make our day all the more meaningful.",
+  coupleBlessing: "With love and gratitude, we begin our forever.",
 
-  ceremony: {
-    title: "Nikah Ceremony",
-    date: "2027-03-28",
-    startTime: "11:00",
-    endTime: "13:00",
-    timezone: "Asia/Kolkata",
-    displayDate: "Sunday, 28 March 2027",
-    displayTime: "11:00 AM",
-    venueName: "Our Wedding Venue",
-    venueHall: "Main Hall",
-    address: "Add your venue address here",
-    mapsQuery: "Kochi, Kerala",
-    mapsEmbed:
-      "https://maps.google.com/maps?q=Kochi%20Kerala&t=&z=14&ie=UTF8&iwloc=&output=embed",
-    notes: "Guests are requested to arrive 30 minutes early.",
-    venueBlurb:
-      "Join us at our wedding venue. Open Google Maps for turn-by-turn directions from wherever you are.",
-  },
-
-  reception: {
-    title: "Walima Function",
+  event: {
+    title: "Wedding Ceremony & Walima Reception",
     date: "2027-03-28",
     startTime: "11:00",
     endTime: "15:00",
     timezone: "Asia/Kolkata",
     displayDate: "Sunday, 28 March 2027",
-    displayTime: "7:00 PM",
-    venueName: "Our Wedding Venue",
-    venueHall: "Vista Convention Center",
-    address: "Add your venue address here",
-    mapsQuery: "Kochi, Kerala",
-    notes: "Dinner, music, and celebration with family and friends.",
+    displayTime: "11:00 AM - 3:00 PM",
+    venueName: "Vista Convention Centre",
+    venueHall: "Vista Convention Centre",
+    address: "Vengad, Kolathur, Malappuram, Kerala 679338",
+    mapsQuery: "Vista Convention Centre, Vengad, Kolathur, Malappuram, Kerala",
+    mapsEmbed:
+      "https://maps.google.com/maps?q=Vista%20Convention%20Centre%2C%20Vengad%2C%20Kolathur%2C%20Malappuram%2C%20Kerala&t=&z=14&ie=UTF8&iwloc=&output=embed",
+    notes: "Guests are requested to arrive 30 minutes early.",
+    venueBlurb:
+      "Join us at Vista Convention Centre in Vengad, Kolathur. Open Google Maps for turn-by-turn directions from wherever you are.",
   },
 
   gallery: [
     {
       src: "assets/WhatsApp%20Image%202026-10-19%20at%2012.17.47%20PM.jpeg",
       alt: "Murshida and Muhsin",
+      caption: "Together forever"
     },
     {
       src: "assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20style.png",
       alt: "The couple walking together by the sea",
+      caption: "Walking by the sea"
     },
     {
       src: "assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20style(1).png",
       alt: "A joyful moment together",
+      caption: "A joyful moment"
     },
     {
       src: "assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20key%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20st.png",
       alt: "Save our date portrait",
+      caption: "Save the date"
     },
     {
       src: "assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20key%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20st(1).png",
       alt: "Save our date at sunset",
+      caption: "Golden hour at sunset"
     },
     {
       src: "assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20style.png",
       alt: "A golden-hour walk by the shore",
+      caption: "Golden-hour walk"
     },
   ],
 
@@ -1821,26 +2140,18 @@ window.WEDDING = {
 
   story: [
     {
-      date: "The Beginning",
-      title: "When Paths Crossed",
-      text: "Some meetings are written in the stars. Ours was one of them — a chance encounter that changed everything.",
+      date: "11:00 AM",
+      title: "Entry",
+      text: "Groom’s arrival and welcome.",
     },
     {
-      date: "First Steps",
-      title: "Falling in Love",
-      text: "From long conversations to shared laughter, every moment together felt like coming home. We knew this was something special.",
-    },
-    {
-      date: "The Proposal",
-      title: "A Question of Forever",
-      text: "With a heart full of love and hope, one question changed our lives forever. And the answer was a joyful yes.",
-    },
-    {
-      date: "28 March 2027",
-      title: "Our Wedding Day",
-      text: "Surrounded by family and friends, we begin our greatest adventure yet — a lifetime of love, laughter, and togetherness.",
+      date: "12:00 PM – 2:00 PM",
+      title: "Reception, Photography & Lunch",
+      text: "Greetings, photos, and lunch served in parallel.",
     },
   ],
+  dresscode: "Traditional / formal attire in soft, elegant tones is warmly encouraged.",
+  rsvpWhatsApp: "919876543210",
 
   wishes: [
     {
@@ -1877,65 +2188,101 @@ window.WEDDING = {
 
   const invitationStateKey = "wedding-invitation-open";
   const gate = $("invitationGate");
+  const gateScene = $("gateScene");
+  const doorWrapper = $("doorWrapper");
 
   function openInvitation() {
-    document.body.classList.remove("is-locked");
-    gate?.classList.add("opened");
+    // Add 'open' class to trigger door panels sliding + gate fade animation
+    gate?.classList.add("open");
+    // Start background music on user gesture (envelope open)
+    if (window._startMusicOnOpen) window._startMusicOnOpen();
+    // CSS handles: panels slide (1.2s) + gate fades (0.6s with 0.8s delay) = ~2.6s total
+    // Unlock body scroll after the full animation completes
+    setTimeout(() => {
+      document.body.classList.remove("is-locked");
+      gate?.classList.add("opened");
+      gate?.classList.remove("open");
+    }, 2600);
     sessionStorage.setItem(invitationStateKey, "true");
   }
+
+  // Allow clicking the seal or door panels to open
+  doorWrapper?.addEventListener("click", openInvitation);
+  // Keyboard support: Enter or Space opens the invitation
+  doorWrapper?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openInvitation();
+    }
+  });
 
   function reopenInvitation(event) {
     event?.preventDefault();
     document.body.classList.add("is-locked");
-    gate?.classList.remove("opened");
+    gate?.classList.remove("opened", "open");
+    // Reset gate visibility
+    if (gate) {
+      gate.style.display = "";
+      // Force reflow so the reset is visible
+      gate.offsetHeight;
+    }
     sessionStorage.removeItem(invitationStateKey);
   }
 
-  document.title = `${wedding.bride.first} & ${groom} — Wedding Invitation`;
+  document.title = `${groom} & ${wedding.bride.first} — Wedding Invitation`;
   set("coverTagline", wedding.tagline);
   set("brideName", wedding.bride.first); set("groomName", groom);
-  set("heroDate", wedding.ceremony.displayDate); set("storyQuote", wedding.quote);
+  set("heroDate", (wedding.event || wedding.ceremony).displayDate); set("storyQuote", wedding.quote);
+  set("welcomeLine", wedding.welcomeLine || "");
+  set("coupleBlessing", wedding.coupleBlessing || "");
+  set("dresscodeText", wedding.dresscode || "");
   set("brideParents", wedding.bride.parents); set("groomParents", wedding.groom.parents);
   set("footerMono", wedding.monogram); set("backMonogram", wedding.monogram); set("footerHashtag", wedding.hashtag);
-  set("gateMonogram", wedding.monogram); set("gateBride", wedding.bride.first); set("gateGroom", groom);
+  set("gateMonogram", wedding.monogram); set("gateBride", groom); set("gateGroom", wedding.bride.first);
 
-  const date = new Date(`${wedding.ceremony.date}T12:00:00`);
+  const evt = wedding.event || wedding.ceremony;
+  const date = new Date(`${evt.date}T12:00:00`);
   set("dateDay", String(date.getDate()).padStart(2, "0"));
   set("dateMonth", date.toLocaleString("en", { month: "long" }));
   set("dateYear", `${date.toLocaleString("en", { weekday: "long" })} · ${date.getFullYear()}`);
 
-  [["ceremony", wedding.ceremony], ["reception", wedding.reception]].forEach(([prefix, event]) => {
-    set(`${prefix}Title`, event.title); set(`${prefix}When`, `${event.displayDate} · ${event.displayTime}`);
-    set(`${prefix}Where`, `${event.venueName} — ${event.venueHall}`); set(`${prefix}Notes`, event.notes);
-    const link = $(`${prefix}Map`); if (link) link.href = maps(event.mapsQuery || wedding.ceremony.mapsQuery);
-  });
+  set("eventTitle", evt.title);
+  set("eventWhen", `${evt.displayDate} · ${evt.displayTime}`);
+  set("eventWhere", `${evt.venueName} — ${evt.venueHall}`);
+  set("eventNotes", evt.notes);
+  const mapLink = $("eventMap");
+  if (mapLink) mapLink.href = maps(evt.mapsQuery || "");
 
-  $("openInvitation")?.addEventListener("click", openInvitation);
-  $("openInvitation")?.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") openInvitation(); });
-  const reopenButton = document.createElement("a");
-  reopenButton.href = "#"; reopenButton.textContent = "Cover"; reopenButton.setAttribute("aria-label", "Reopen invitation cover");
-  reopenButton.addEventListener("click", reopenInvitation);
-  document.querySelector(".quick-nav")?.prepend(reopenButton);
+  // Door wrapper handles click and keyboard — no separate button needed
 
-  let activeEvent = wedding.ceremony;
-  document.querySelectorAll("[data-calendar]").forEach((button) => button.addEventListener("click", () => {
-    activeEvent = button.dataset.calendar === "reception" ? wedding.reception : wedding.ceremony;
+  const activeEvent = wedding.event || wedding.ceremony;
+  $("eventCalendar")?.addEventListener("click", () => {
     set("calEventLabel", `${activeEvent.title} · ${activeEvent.displayDate}`);
     const start = activeEvent.date.replaceAll("-", "") + "T" + activeEvent.startTime.replace(":", "") + "00";
     const end = activeEvent.date.replaceAll("-", "") + "T" + activeEvent.endTime.replace(":", "") + "00";
     $("calGoogle").href = `https://calendar.google.com/calendar/render?${new URLSearchParams({ action: "TEMPLATE", text: `${activeEvent.title} — ${wedding.bride.first} & ${groom}`, dates: `${start}/${end}` })}`;
     $("calSheet").hidden = false;
-  }));
+  });
   $("calClose")?.addEventListener("click", () => { $("calSheet").hidden = true; });
 
   /* ── Countdown Timer ── */
   (function initCountdown() {
-    const target = new Date(`${wedding.ceremony.date}T${wedding.ceremony.startTime}:00`).getTime();
+    const target = new Date(`${activeEvent.date}T${activeEvent.startTime}:00`).getTime();
     const pad = (n) => String(n).padStart(2, "0");
+    const countdownEl = $("countdownTimer");
 
     function tick() {
       const now = Date.now();
-      const diff = Math.max(0, target - now);
+      const diff = target - now;
+
+      if (diff <= 0) {
+        // Wedding day has arrived!
+        if (countdownEl) {
+          countdownEl.innerHTML = '<p style="font-size:28px;color:var(--gold);font-family:var(--serif);">🎉 The big day is here! 🎉</p>';
+        }
+        return;
+      }
+
       const days = Math.floor(diff / 86400000);
       const hours = Math.floor((diff % 86400000) / 3600000);
       const minutes = Math.floor((diff % 3600000) / 60000);
@@ -2000,11 +2347,20 @@ window.WEDDING = {
       if (dot) goTo(parseInt(dot.dataset.index, 10));
     });
 
-    let autoTimer = setInterval(() => goTo(current + 1), 5000);
+    let autoTimer = setInterval(() => goTo(current + 1), 8000);
     const carousel = $("galleryCarousel");
     if (carousel) {
       carousel.addEventListener("mouseenter", () => clearInterval(autoTimer));
-      carousel.addEventListener("mouseleave", () => { autoTimer = setInterval(() => goTo(current + 1), 5000); });
+      carousel.addEventListener("mouseleave", () => { autoTimer = setInterval(() => goTo(current + 1), 8000); });
+    }
+
+    // Keyboard navigation for gallery
+    if (carousel) {
+      carousel.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") { e.preventDefault(); goTo(current - 1); }
+        if (e.key === "ArrowRight") { e.preventDefault(); goTo(current + 1); }
+      });
+      carousel.setAttribute("tabindex", "0");
     }
 
     let touchStartX = 0;
@@ -2015,90 +2371,32 @@ window.WEDDING = {
     }, { passive: true });
   })();
 
-  /* ── Wishes Carousel ── */
-  (function initWishes() {
-    const track = $("wishesTrack");
-    const dotsContainer = $("wishesDots");
-    const prevBtn = $("wishesPrev");
-    const nextBtn = $("wishesNext");
-    if (!track) return;
-
-    // Load guest wishes from localStorage
-    let guestWishes = [];
-    try { guestWishes = JSON.parse(localStorage.getItem("wedding-guest-wishes") || "[]"); } catch (e) { /* ignore */ }
-    let wishes = [...guestWishes, ...(wedding.wishes || [])];
-    let current = 0;
-
-    function render() {
-      if (!wishes.length) return;
-      track.innerHTML = wishes.map((w) => `
-        <div class="wish-card">
-          <p class="wish-quote">${w.text}</p>
-          <p class="wish-author">\u2014 ${w.author}</p>
-        </div>
-      `).join("");
-
-      if (dotsContainer) {
-        dotsContainer.innerHTML = wishes.map((_, i) => `<button class="carousel-dot${i === 0 ? " active" : ""}" data-index="${i}" aria-label="Go to wish ${i + 1}"></button>`).join("");
-      }
-    }
-
-    function goTo(index) {
-      if (!wishes.length) return;
-      current = ((index % wishes.length) + wishes.length) % wishes.length;
-      track.style.transform = `translateX(-${current * 100}%)`;
-      dotsContainer?.querySelectorAll(".carousel-dot").forEach((dot, i) => {
-        dot.classList.toggle("active", i === current);
-      });
-    }
-
-    render();
-
-    prevBtn?.addEventListener("click", () => goTo(current - 1));
-    nextBtn?.addEventListener("click", () => goTo(current + 1));
-    dotsContainer?.addEventListener("click", (e) => {
-      const dot = e.target.closest(".carousel-dot");
-      if (dot) goTo(parseInt(dot.dataset.index, 10));
-    });
-
-    let autoTimer = setInterval(() => goTo(current + 1), 6000);
-    const carousel = $("wishesCarousel");
-    if (carousel) {
-      carousel.addEventListener("mouseenter", () => clearInterval(autoTimer));
-      carousel.addEventListener("mouseleave", () => { autoTimer = setInterval(() => goTo(current + 1), 6000); });
-    }
-
-    let touchStartX = 0;
-    track.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener("touchend", (e) => {
-      const diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
-    }, { passive: true });
-
-    /* ── Wish Form ── */
-    const wishForm = $("wishForm");
-    wishForm?.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const data = Object.fromEntries(new FormData(event.currentTarget));
-      const newWish = { text: data.wish, author: data.name };
-
-      // Save to localStorage
-      let stored = [];
-      try { stored = JSON.parse(localStorage.getItem("wedding-guest-wishes") || "[]"); } catch (e) { /* ignore */ }
-      stored.unshift(newWish);
-      localStorage.setItem("wedding-guest-wishes", JSON.stringify(stored));
-      wishes = [...stored, ...(wedding.wishes || [])];
-      current = 0;
-      render();
-      goTo(0);
-      event.currentTarget.reset();
-      set("wishStatus", `Thank you, ${data.name}! Your beautiful wish has been added.`);
-      setTimeout(() => set("wishStatus", ""), 4000);
+  /* ── RSVP (WhatsApp) ── */
+  (function initRsvp() {
+    const form = $("rsvpForm");
+    if (!form) return;
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      const phone = wedding.rsvpWhatsApp || "";
+      const msg = [
+        `RSVP for Muhsin & Murshida (28 Mar 2027)`,
+        `Name: ${data.name || ""}`,
+        `Guests: ${data.guests || "1"}`,
+        `Attending: ${data.attending || ""}`,
+        data.message ? `Message: ${data.message}` : ""
+      ].filter(Boolean).join("\n");
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+      window.open(url, "_blank", "noopener");
+      set("rsvpStatus", "Opening WhatsApp to send your RSVP…");
+      setTimeout(() => set("rsvpStatus", ""), 5000);
     });
   })();
 
   const reveal = document.querySelectorAll(".section,.portrait,.film");
-  reveal.forEach((element) => element.classList.add("reveal"));
+  reveal.forEach((element) => {
+    element.classList.add("reveal", "reveal-stagger");
+  });
   const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
     if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); }
   }), { threshold: 0.12 });
@@ -2112,8 +2410,71 @@ window.WEDDING = {
     item.style.setProperty("--spin", `${Math.round(Math.random() * 900 - 450)}deg`); item.style.setProperty("--fall-time", `${7 + Math.random() * 7}s`);
     item.style.setProperty("--scale", `${0.45 + Math.random() * 1.05}`); petals.append(item); window.setTimeout(() => item.remove(), 15000);
   };
-  for (let i = 0; i < 14; i += 1) window.setTimeout(petal, i * 130);
-  window.setInterval(petal, 310);
+  const isMobile = window.matchMedia("(max-width: 600px)").matches;
+  const initialPetals = isMobile ? 8 : 14;
+  const interval = isMobile ? 500 : 310;
+  for (let i = 0; i < initialPetals; i += 1) window.setTimeout(petal, i * 130);
+  window.setInterval(petal, interval);
+
+  /* ── Music toggle ── */
+  (function initMusic() {
+    const btn = $("musicToggle");
+    const audio = $("bgMusic");
+    if (!btn || !audio) return;
+    let musicStarted = false;
+    function setPlaying() {
+      btn.textContent = "🔊 Music";
+      btn.setAttribute("aria-label", "Pause music");
+    }
+    function setPaused() {
+      btn.textContent = "🔇 Music";
+      btn.setAttribute("aria-label", "Play music");
+    }
+    async function startMusic() {
+      if (musicStarted) return;
+      musicStarted = true;
+      try {
+        await audio.play();
+        setPlaying();
+      } catch (e) {
+        setPaused();
+      }
+    }
+    // Start music on first user interaction (envelope open)
+    window._startMusicOnOpen = startMusic;
+    btn.addEventListener("click", async () => {
+      try {
+        if (audio.paused) { await audio.play(); setPlaying(); }
+        else { audio.pause(); setPaused(); }
+      } catch (e) { setPaused(); }
+    });
+  })();
+
+  /* ── Video Play/Pause Toggle ── */
+  (function initVideo() {
+    const filmFrame = document.querySelector(".film-frame");
+    const video = document.querySelector(".film video");
+    if (!filmFrame || !video) return;
+
+    const btn = document.createElement("button");
+    btn.className = "video-play-pause";
+    btn.setAttribute("aria-label", "Pause video");
+    btn.textContent = "⏸";
+    filmFrame.appendChild(btn);
+
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (video.paused) {
+        video.play();
+        btn.textContent = "⏸";
+        btn.setAttribute("aria-label", "Pause video");
+      } else {
+        video.pause();
+        btn.textContent = "▶";
+        btn.setAttribute("aria-label", "Play video");
+      }
+    });
+  })();
 })();
 
 </script>

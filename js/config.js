@@ -3,77 +3,70 @@ window.WEDDING = {
   bride: {
     first: "Murshida",
     last: "",
-    parents: "Daughter of her beloved family",
+    parents: "Daughter of Mr. Muhammed & Mrs. Sakeena",
   },
   groom: {
     first: "Muhsin",
     last: "",
     display: "Muhsin",
-    parents: "Son of his beloved family",
+    parents: "Son of Mr. Abdul Majeed & Mrs. Misriyya",
   },
   monogram: "M & M",
   tagline: "Together with their families, request the honour of your presence",
-  quote: "One bride, one groom — and a lifetime written as one.",
+  quote: "With joyful hearts, we invite you to celebrate our wedding.",
   hashtag: "#MuhsinAndMurshida",
+  welcomeLine: "With joyful hearts, we invite you to share in the beginning of our forever. Your presence will make our day all the more meaningful.",
+  coupleBlessing: "With love and gratitude, we begin our forever.",
 
-  ceremony: {
-    title: "Nikah Ceremony",
-    date: "2027-03-28",
-    startTime: "11:00",
-    endTime: "13:00",
-    timezone: "Asia/Kolkata",
-    displayDate: "Sunday, 28 March 2027",
-    displayTime: "11:00 AM",
-    venueName: "Our Wedding Venue",
-    venueHall: "Main Hall",
-    address: "Add your venue address here",
-    mapsQuery: "Kochi, Kerala",
-    mapsEmbed:
-      "https://maps.google.com/maps?q=Kochi%20Kerala&t=&z=14&ie=UTF8&iwloc=&output=embed",
-    notes: "Guests are requested to arrive 30 minutes early.",
-    venueBlurb:
-      "Join us at our wedding venue. Open Google Maps for turn-by-turn directions from wherever you are.",
-  },
-
-  reception: {
-    title: "Walima Function",
+  event: {
+    title: "Wedding Ceremony & Walima Reception",
     date: "2027-03-28",
     startTime: "11:00",
     endTime: "15:00",
     timezone: "Asia/Kolkata",
     displayDate: "Sunday, 28 March 2027",
-    displayTime: "7:00 PM",
-    venueName: "Our Wedding Venue",
-    venueHall: "Vista Convention Center",
-    address: "Add your venue address here",
-    mapsQuery: "Kochi, Kerala",
-    notes: "Dinner, music, and celebration with family and friends.",
+    displayTime: "11:00 AM - 3:00 PM",
+    venueName: "Vista Convention Centre",
+    venueHall: "Vista Convention Centre",
+    address: "Vengad, Kolathur, Malappuram, Kerala 679338",
+    mapsQuery: "Vista Convention Centre, Vengad, Kolathur, Malappuram, Kerala",
+    mapsEmbed:
+      "https://maps.google.com/maps?q=Vista%20Convention%20Centre%2C%20Vengad%2C%20Kolathur%2C%20Malappuram%2C%20Kerala&t=&z=14&ie=UTF8&iwloc=&output=embed",
+    notes: "Guests are requested to arrive 30 minutes early.",
+    venueBlurb:
+      "Join us at Vista Convention Centre in Vengad, Kolathur. Open Google Maps for turn-by-turn directions from wherever you are.",
   },
 
   gallery: [
     {
       src: "css/assets/WhatsApp%20Image%202026-10-19%20at%2012.17.47%20PM.jpeg",
       alt: "Murshida and Muhsin",
+      caption: "Together forever"
     },
     {
       src: "css/assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20style.png",
       alt: "The couple walking together by the sea",
+      caption: "Walking by the sea"
     },
     {
       src: "css/assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20style(1).png",
       alt: "A joyful moment together",
+      caption: "A joyful moment"
     },
     {
       src: "css/assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20key%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20st.png",
       alt: "Save our date portrait",
+      caption: "Save the date"
     },
     {
       src: "css/assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20key%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20st(1).png",
       alt: "Save our date at sunset",
+      caption: "Golden hour at sunset"
     },
     {
       src: "css/assets/Agent%20Image%20-%20Create%20a%20high-end%203D%20CG%20animated%20frame%20in%20a%20Pixar%20and%20Illumination%20feature-film%20style.png",
       alt: "A golden-hour walk by the shore",
+      caption: "Golden-hour walk"
     },
   ],
 
@@ -97,26 +90,18 @@ window.WEDDING = {
 
   story: [
     {
-      date: "The Beginning",
-      title: "When Paths Crossed",
-      text: "Some meetings are written in the stars. Ours was one of them — a chance encounter that changed everything.",
+      date: "11:00 AM",
+      title: "Entry",
+      text: "Groom’s arrival and welcome.",
     },
     {
-      date: "First Steps",
-      title: "Falling in Love",
-      text: "From long conversations to shared laughter, every moment together felt like coming home. We knew this was something special.",
-    },
-    {
-      date: "The Proposal",
-      title: "A Question of Forever",
-      text: "With a heart full of love and hope, one question changed our lives forever. And the answer was a joyful yes.",
-    },
-    {
-      date: "28 March 2027",
-      title: "Our Wedding Day",
-      text: "Surrounded by family and friends, we begin our greatest adventure yet — a lifetime of love, laughter, and togetherness.",
+      date: "12:00 PM – 2:00 PM",
+      title: "Reception, Photography & Lunch",
+      text: "Greetings, photos, and lunch served in parallel.",
     },
   ],
+  dresscode: "Traditional / formal attire in soft, elegant tones is warmly encouraged.",
+  rsvpWhatsApp: "919876543210",
 
   wishes: [
     {
