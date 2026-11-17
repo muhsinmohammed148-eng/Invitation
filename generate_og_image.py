@@ -1,166 +1,205 @@
-"""Generate a luxury wedding invitation OG (Open Graph) image for social media sharing."""
-
 from PIL import Image, ImageDraw, ImageFont
 import os
+import math
 
-# Dimensions: 1200x630 (standard OG image size)
-WIDTH, HEIGHT = 1200, 630
+# Dimensions: 1200x1750 (Vertical Wedding Invitation Size)
+WIDTH, HEIGHT = 1200, 1750
 
-# Colors matching the invitation palette
-IVORY = (251, 246, 238)        # #FBF6EE
+# Colors matching the luxury ivory and burgundy/gold palette
+IVORY = (251, 246, 238)         # #FBF6EE
 CHAMPAGNE_GOLD = (201, 166, 107)  # #C9A66B
-DARK_EMERALD = (31, 77, 63)     # #1F4D3F
-BLUSH = (242, 221, 214)         # #F2DDD6
-WHITE = (255, 255, 255)
-DARK_GOLD = (160, 120, 60)
+DARK_BURGUNDY = (75, 20, 35)      # #4B1423
+DARK_TEXT = (50, 40, 35)          # Deep charcoal-brown for high readability
+GOLD_LIGHT = (230, 200, 140)
+BLUSH_PINK = (220, 175, 175)
+ROSE_DEEP = (140, 50, 70)
 
 # Output path
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
-OUTPUT_PATH = os.path.join(OUTPUT_DIR, "assets", "og-image.png")
+OUTPUT_PATH = os.path.join(OUTPUT_DIR, "assets", "wedding-invitation.png")
+FONT_DIR = os.path.join(OUTPUT_DIR, "fonts")
 
-def create_og_image():
+def draw_luxury_frame(draw, margin, color, width=3):
+    """Draw an elegant double rectangular frame with decorative corners."""
+    draw.rectangle([margin, margin, WIDTH - margin, HEIGHT - margin], outline=color, width=width)
+    inner_margin = margin + 12
+    draw.rectangle([inner_margin, inner_margin, WIDTH - inner_margin, HEIGHT - inner_margin], outline=color, width=1)
+
+def draw_floral_cluster(draw, cx, cy, scale, flip_h=False, flip_v=False):
+    """Draws rich floral and vine cluster decorations in the corners and bottom."""
+    hx = -1 if flip_h else 1
+    hy = -1 if flip_v else 1
+
+    # Curved background vines
+    for offset_angle in range(0, 60, 10):
+        vine_points = []
+        for t in range(0, 61):
+            frac = t / 60
+            angle = math.radians(10 + offset_angle + frac * 50)
+            r = scale * (0.4 + 0.6 * frac)
+            x = cx + r * math.cos(angle) * hx
+            y = cy + r * math.sin(angle) * hy
+            vine_points.append((x, y))
+        for i in range(len(vine_points) - 1):
+            draw.line([vine_points[i], vine_points[i+1]], fill=CHAMPAGNE_GOLD, width=1)
+
+    # Multi-layered roses and flower petals
+    flower_centers = [
+        (cx + 35 * hx, cy + 35 * hy),
+        (cx + 70 * hx, cy + 25 * hy),
+        (cx + 25 * hx, cy + 75 * hy),
+        (cx + 60 * hx, cy + 70 * hy)
+    ]
+    
+    for fx, fy in flower_centers:
+        # Outer soft glow/petals
+        draw.ellipse([fx - 18, fy - 18, fx + 18, fy + 18], fill=BLUSH_PINK)
+        # Mid petals
+        draw.ellipse([fx - 12, fy - 12, fx + 12, fy + 12], fill=ROSE_DEEP)
+        # Deep center core
+        draw.ellipse([fx - 6, fy - 6, fx + 6, fy + 6], fill=DARK_BURGUNDY)
+        # Highlight specs
+        draw.ellipse([fx - 2, fy - 2, fx + 2, fy + 2], fill=GOLD_LIGHT)
+
+    # Leaves and foliage detail
+    for t in range(20, 80, 15):
+        frac = t / 100
+        lx = cx + scale * frac * hx * 1.2
+        ly = cy + scale * frac * hy * 0.8
+        draw.polygon([
+            (lx, ly), 
+            (lx + 12 * hx, ly - 6 * hy), 
+            (lx + 18 * hx, ly + 4 * hy)
+        ], fill=CHAMPAGNE_GOLD)
+
+def create_invitation_image():
     # Create base image with ivory background
     img = Image.new("RGB", (WIDTH, HEIGHT), IVORY)
     draw = ImageDraw.Draw(img)
 
-    # Draw a subtle blush gradient border
-    border_margin = 40
-    draw.rectangle(
-        [border_margin, border_margin, WIDTH - border_margin, HEIGHT - border_margin],
-        outline=CHAMPAGNE_GOLD,
-        width=3
-    )
+    # Ensure font directory exists
+    os.makedirs(FONT_DIR, exist_ok=True)
 
-    # Inner border
-    inner_margin = 50
-    draw.rectangle(
-        [inner_margin, inner_margin, WIDTH - inner_margin, HEIGHT - inner_margin],
-        outline=CHAMPAGNE_GOLD,
-        width=1
-    )
-
-    # Corner ornaments (L-shaped gold corners)
-    corner_size = 60
-    corner_offset = 55
-    corner_width = 3
-
-    # Top-left corner
-    draw.line([(corner_offset, corner_offset + corner_size), (corner_offset, corner_offset)], fill=CHAMPAGNE_GOLD, width=corner_width)
-    draw.line([(corner_offset, corner_offset), (corner_offset + corner_size, corner_offset)], fill=CHAMPAGNE_GOLD, width=corner_width)
-
-    # Top-right corner
-    draw.line([(WIDTH - corner_offset, corner_offset + corner_size), (WIDTH - corner_offset, corner_offset)], fill=CHAMPAGNE_GOLD, width=corner_width)
-    draw.line([(WIDTH - corner_offset, corner_offset), (WIDTH - corner_offset - corner_size, corner_offset)], fill=CHAMPAGNE_GOLD, width=corner_width)
-
-    # Bottom-left corner
-    draw.line([(corner_offset, HEIGHT - corner_offset - corner_size), (corner_offset, HEIGHT - corner_offset)], fill=CHAMPAGNE_GOLD, width=corner_width)
-    draw.line([(corner_offset, HEIGHT - corner_offset), (corner_offset + corner_size, HEIGHT - corner_offset)], fill=CHAMPAGNE_GOLD, width=corner_width)
-
-    # Bottom-right corner
-    draw.line([(WIDTH - corner_offset, HEIGHT - corner_offset - corner_size), (WIDTH - corner_offset, HEIGHT - corner_offset)], fill=CHAMPAGNE_GOLD, width=corner_width)
-    draw.line([(WIDTH - corner_offset, HEIGHT - corner_offset), (WIDTH - corner_offset - corner_size, HEIGHT - corner_offset)], fill=CHAMPAGNE_GOLD, width=corner_width)
-
-    # Load fonts
+    # Fallback or load truetype fonts (Make sure font files are placed in your 'fonts' folder)
     try:
-        script_font = ImageFont.truetype("/usr/share/fonts/truetype/ubuntu/Ubuntu-RI.ttf", 72)
-    except:
-        script_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf", 72)
+        script_font = ImageFont.truetype(os.path.join(FONT_DIR, "GreatVibes.ttf"), 95)
+        serif_title = ImageFont.truetype(os.path.join(FONT_DIR, "CormorantGaramond-Bold.ttf"), 52)
+        serif_bold = ImageFont.truetype(os.path.join(FONT_DIR, "CormorantGaramond-Bold.ttf"), 36)
+        serif_regular = ImageFont.truetype(os.path.join(FONT_DIR, "CormorantGaramond-Regular.ttf"), 30)
+        serif_italic = ImageFont.truetype(os.path.join(FONT_DIR, "CormorantGaramond-Regular.ttf"), 32)
+    except IOError:
+        # Fallback to default if custom font files aren't pre-loaded locally
+        script_font = serif_bold = serif_regular = serif_italic = serif_title = ImageFont.load_default()
 
-    try:
-        serif_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf", 36)
-    except:
-        serif_font = ImageFont.load_default(size=36)
+    # --- Outer Frames & Borders ---
+    draw_luxury_frame(draw, 50, CHAMPAGNE_GOLD, width=3)
 
-    try:
-        serif_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf", 28)
-    except:
-        serif_small = ImageFont.load_default(size=28)
+    # --- Rich Floral Corners (Top & Bottom) ---
+    draw_floral_cluster(draw, 50, 50, scale=90)                             # Top-Left
+    draw_floral_cluster(draw, WIDTH - 50, 50, scale=90, flip_h=True)        # Top-Right
+    draw_floral_cluster(draw, 50, HEIGHT - 50, scale=90, flip_v=True)       # Bottom-Left
+    draw_floral_cluster(draw, WIDTH - 50, HEIGHT - 50, scale=90, flip_h=True, flip_v=True) # Bottom-Right
 
-    try:
-        sans_font = ImageFont.truetype("/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf", 24)
-    except:
-        sans_font = ImageFont.load_default(size=24)
-
-    try:
-        sans_bold = ImageFont.truetype("/usr/share/fonts/truetype/ubuntu/Ubuntu-B.ttf", 28)
-    except:
-        sans_bold = ImageFont.load_default(size=28)
-
-    # "Together with their families" - top text
-    top_text = "Together with their families"
-    bbox = draw.textbbox((0, 0), top_text, font=sans_font)
-    tw = bbox[2] - bbox[0]
-    draw.text(((WIDTH - tw) // 2, 100), top_text, fill=DARK_EMERALD, font=sans_font)
-
-    # Gold divider line above names
-    line_y = 155
-    line_width = 200
-    x1 = (WIDTH - line_width) // 2
-    x2 = (WIDTH + line_width) // 2
-    draw.line([(x1, line_y), (x2, line_y)], fill=CHAMPAGNE_GOLD, width=2)
-
-    # Small diamond at center of line
-    diamond_size = 6
-    cx = WIDTH // 2
-    draw.polygon([
-        (cx, line_y - diamond_size),
-        (cx + diamond_size, line_y),
-        (cx, line_y + diamond_size),
-        (cx - diamond_size, line_y)
-    ], fill=CHAMPAGNE_GOLD)
-
-    # Couple names - "Murshida & Muhsin" in script font
-    names = "Murshida & Muhsin"
-    bbox = draw.textbbox((0, 0), names, font=script_font)
+    # --- Top Monogram ---
+    mono_cx = WIDTH // 2
+    mono_cy = 140
+    draw.ellipse([mono_cx - 45, mono_cy - 45, mono_cx + 45, mono_cy + 45], fill=DARK_BURGUNDY, outline=CHAMPAGNE_GOLD, width=2)
+    
+    mono_text = "M & M"
+    bbox = draw.textbbox((0, 0), mono_text, font=serif_bold)
     tw = bbox[2] - bbox[0]
     th = bbox[3] - bbox[1]
-    draw.text(((WIDTH - tw) // 2, 175), names, fill=DARK_EMERALD, font=script_font)
+    draw.text((mono_cx - tw // 2, mono_cy - th // 2 - 2), mono_text, fill=CHAMPAGNE_GOLD, font=serif_bold)
 
-    # "are getting married" subtitle
-    subtitle = "are getting married"
-    bbox = draw.textbbox((0, 0), subtitle, font=serif_font)
+    # --- Couple Names (Centered) ---
+    names_text = "Muhsin & Murshida"
+    bbox = draw.textbbox((0, 0), names_text, font=script_font)
     tw = bbox[2] - bbox[0]
-    draw.text(((WIDTH - tw) // 2, 300), subtitle, fill=CHAMPAGNE_GOLD, font=serif_font)
+    # Drop shadow for luxury depth
+    draw.text(((WIDTH - tw) // 2 + 2, 230 + 2), names_text, fill=GOLD_LIGHT, font=script_font)
+    draw.text(((WIDTH - tw) // 2, 230), names_text, fill=DARK_BURGUNDY, font=script_font)
 
-    # Gold divider line below names
-    line_y2 = 360
-    draw.line([(x1, line_y2), (x2, line_y2)], fill=CHAMPAGNE_GOLD, width=2)
-    draw.polygon([
-        (cx, line_y2 - diamond_size),
-        (cx + diamond_size, line_y2),
-        (cx, line_y2 + diamond_size),
-        (cx - diamond_size, line_y2)
-    ], fill=CHAMPAGNE_GOLD)
+    # --- Invitation Hook / Tagline ---
+    tagline_text = "Together with their families,\nrequest the honour of your presence"
+    # Render multi-line centered text manually or via multiline
+    for i, line in enumerate(tagline_text.split('\n')):
+        bbox = draw.textbbox((0, 0), line, font=serif_italic)
+        tw = bbox[2] - bbox[0]
+        draw.text(((WIDTH - tw) // 2, 360 + (i * 40)), line, fill=DARK_TEXT, font=serif_italic)
 
-    # Date
+    # --- Gold Ornamental Divider ---
+    div_y = 470
+    div_width = 350
+    x1 = (WIDTH - div_width) // 2
+    x2 = (WIDTH + div_width) // 2
+    cx = WIDTH // 2
+    draw.line([(x1, div_y), (cx - 20, div_y)], fill=CHAMPAGNE_GOLD, width=2)
+    draw.line([(cx + 20, div_y), (x2, div_y)], fill=CHAMPAGNE_GOLD, width=2)
+    # Center diamond
+    ds = 6
+    draw.polygon([(cx, div_y - ds), (cx + ds, div_y), (cx, div_y + ds), (cx - ds, div_y)], fill=CHAMPAGNE_GOLD)
+
+    # --- Event Title (No Walima, Centered) ---
+    event_title = "Wedding Ceremony"
+    bbox = draw.textbbox((0, 0), event_title, font=serif_title)
+    tw = bbox[2] - bbox[0]
+    draw.text(((WIDTH - tw) // 2, 520), event_title, fill=DARK_BURGUNDY, font=serif_title)
+
+    # --- Date & Time ---
     date_text = "Sunday, 28 March 2027"
-    bbox = draw.textbbox((0, 0), date_text, font=sans_bold)
+    bbox = draw.textbbox((0, 0), date_text, font=serif_bold)
     tw = bbox[2] - bbox[0]
-    draw.text(((WIDTH - tw) // 2, 390), date_text, fill=DARK_EMERALD, font=sans_bold)
+    draw.text(((WIDTH - tw) // 2, 610), date_text, fill=DARK_TEXT, font=serif_bold)
 
-    # Time
-    time_text = "11:00 AM – 3:00 PM"
-    bbox = draw.textbbox((0, 0), time_text, font=serif_small)
+    time_text = "at 11:00 AM"
+    bbox = draw.textbbox((0, 0), time_text, font=serif_regular)
     tw = bbox[2] - bbox[0]
-    draw.text(((WIDTH - tw) // 2, 435), time_text, fill=CHAMPAGNE_GOLD, font=serif_small)
+    draw.text(((WIDTH - tw) // 2, 660), time_text, fill=CHAMPAGNE_GOLD, font=serif_regular)
 
-    # Venue
-    venue_text = "Vista Convention Centre, Malappuram, Kerala"
-    bbox = draw.textbbox((0, 0), venue_text, font=serif_small)
-    tw = bbox[2] - bbox[0]
-    draw.text(((WIDTH - tw) // 2, 480), venue_text, fill=DARK_EMERALD, font=serif_small)
+    # --- Venue Details ---
+    venue_block = [
+        "Vista Convention Centre",
+        "Vengad",
+    ]
+    
+    start_y = 750
+    for i, line in enumerate(venue_block):
+        if not line: 
+            continue
+        font_to_use = serif_bold if i == 0 else serif_regular
+        color_to_use = DARK_BURGUNDY if i == 0 else DARK_TEXT
+        bbox = draw.textbbox((0, 0), line, font=font_to_use)
+        tw = bbox[2] - bbox[0]
+        draw.text(((WIDTH - tw) // 2, start_y + (i * 42)), line, fill=color_to_use, font=font_to_use)
 
-    # Hashtag at bottom
+    # --- Family Parents Lines ---
+    parents_block = [
+        "Daughter of Mr. Muhammed & Mrs. Sakeena",
+        "Son of Mr. Abdul Majeed & Mrs. Misriyya"
+    ]
+    
+    parent_y = 980
+    for i, line in enumerate(parents_block):
+        bbox = draw.textbbox((0, 0), line, font=serif_regular)
+        tw = bbox[2] - bbox[0]
+        draw.text(((WIDTH - tw) // 2, parent_y + (i * 40)), line, fill=DARK_TEXT, font=serif_regular)
+
+    forever_text = "With joyful hearts, we invite you to share in the beginning of our forever.\nWith love and gratitude, we begin our forever."
+    for i, line in enumerate(forever_text.split('\n')):
+        bbox = draw.textbbox((0, 0), line, font=serif_regular)
+        tw = bbox[2] - bbox[0]
+        draw.text(((WIDTH - tw) // 2, 1210 + (i * 38)), line, fill=DARK_TEXT, font=serif_regular)
+
+    # --- Hashtag ---
     hashtag = "#MuhsinAndMurshida"
-    bbox = draw.textbbox((0, 0), hashtag, font=sans_font)
+    bbox = draw.textbbox((0, 0), hashtag, font=serif_bold)
     tw = bbox[2] - bbox[0]
-    draw.text(((WIDTH - tw) // 2, 560), hashtag, fill=CHAMPAGNE_GOLD, font=sans_font)
+    draw.text(((WIDTH - tw) // 2, 1370), hashtag, fill=CHAMPAGNE_GOLD, font=serif_bold)
 
-    # Save image
+    # --- Save Image ---
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
-    img.save(OUTPUT_PATH, "PNG", quality=95)
-    print(f"OG image saved to: {OUTPUT_PATH}")
-    print(f"Image size: {os.path.getsize(OUTPUT_PATH)} bytes")
+    img.save(OUTPUT_PATH, "PNG")
+    print(f"Luxury wedding invitation saved successfully to: {OUTPUT_PATH}")
 
 if __name__ == "__main__":
-    create_og_image()
+    create_invitation_image()

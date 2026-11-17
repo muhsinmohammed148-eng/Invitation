@@ -2354,7 +2354,7 @@ body.is-locked {
 <audio id="bgMusic" loop preload="auto">
   <source src="assets/wedding-music.mp3" type="audio/mpeg">
 </audio>
-<button class="music-toggle" id="musicToggle" type="button" aria-label="Toggle music">🔇 Music</button>
+<button class="music-toggle" id="musicToggle" type="button" aria-label="Toggle music">🔊 Music</button>
 <script>
 /* ── Edit this file to personalize the invitation ── */
 window.WEDDING = {
@@ -2459,7 +2459,7 @@ window.WEDDING = {
     },
   ],
   dresscode: "Traditional / formal attire in soft, elegant tones is warmly encouraged.",
-  rsvpWhatsApp: "919876543210",
+  rsvpWhatsApp: "918606289604",
 
   wishes: [
     {
@@ -2749,7 +2749,16 @@ window.WEDDING = {
         setPaused();
       }
     }
-    // Start music on envelope open
+    // Attempt autoplay on page load (browser may block it)
+    audio.play().then(() => {
+      musicStarted = true;
+      setPlaying();
+    }).catch(e => {
+      console.warn("Autoplay blocked, waiting for user interaction:", e);
+      // Autoplay was blocked, set button to muted state
+      setPaused();
+    });
+    // Start music on envelope open if not already playing
     window._startMusicOnOpen = startMusic;
     // Fallback: try to start music on any first user interaction if not already playing
     let firstInteractionHandler = async function() {

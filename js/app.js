@@ -260,7 +260,16 @@
         setPaused();
       }
     }
-    // Start music on envelope open
+    // Attempt autoplay on page load (browser may block it)
+    audio.play().then(() => {
+      musicStarted = true;
+      setPlaying();
+    }).catch(e => {
+      console.warn("Autoplay blocked, waiting for user interaction:", e);
+      // Autoplay was blocked, set button to muted state
+      setPaused();
+    });
+    // Start music on envelope open if not already playing
     window._startMusicOnOpen = startMusic;
     // Fallback: try to start music on any first user interaction if not already playing
     let firstInteractionHandler = async function() {

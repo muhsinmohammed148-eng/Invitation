@@ -101,7 +101,7 @@ window.WEDDING = {
     },
   ],
   dresscode: "Traditional / formal attire in soft, elegant tones is warmly encouraged.",
-  rsvpWhatsApp: "919876543210",
+  rsvpWhatsApp: "918606289604",
 
   wishes: [
     {
