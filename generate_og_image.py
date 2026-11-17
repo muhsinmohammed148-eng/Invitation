@@ -201,5 +201,25 @@ def create_invitation_image():
     img.save(OUTPUT_PATH, "PNG")
     print(f"Luxury wedding invitation saved successfully to: {OUTPUT_PATH}")
 
+def create_og_image():
+    """Convert the Gemini-generated image to an optimized OG sharing thumbnail (1200x630 JPEG, <300KB)."""
+    src = os.path.join(OUTPUT_DIR, "vercel", "assets", "Gemini_Generated_Image_r4ojdcr4ojdcr4oj.png")
+    dst = os.path.join(OUTPUT_DIR, "assets", "og-image.jpg")
+    dst_vercel = os.path.join(OUTPUT_DIR, "vercel", "assets", "og-image.jpg")
+
+    img = Image.open(src).convert("RGB")
+    resized = img.resize((1200, 630), Image.LANCZOS)
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    resized.save(dst, "JPEG", quality=85, optimize=True)
+    size = os.path.getsize(dst)
+    print(f"OG image saved to: {dst} ({size} bytes, {resized.size})")
+
+    # Also save to vercel deployment directory
+    os.makedirs(os.path.dirname(dst_vercel), exist_ok=True)
+    resized.save(dst_vercel, "JPEG", quality=85, optimize=True)
+    print(f"OG image saved to: {dst_vercel} ({os.path.getsize(dst_vercel)} bytes)")
+
+
 if __name__ == "__main__":
     create_invitation_image()
+    create_og_image()
