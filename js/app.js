@@ -256,17 +256,41 @@
         await audio.play();
         setPlaying();
       } catch (e) {
+        console.warn("Music autoplay blocked:", e);
         setPaused();
       }
     }
-    // Start music on first user interaction (envelope open)
-    const origOpen = window._openInvitationRef;
+    // Start music on envelope open
     window._startMusicOnOpen = startMusic;
-    btn.addEventListener("click", async () => {
+    // Fallback: try to start music on any first user interaction if not already playing
+    let firstInteractionHandler = async function() {
+      if (!musicStarted) {
+        try {
+          await audio.play();
+          musicStarted = true;
+          setPlaying();
+        } catch (e) {
+          // Browser blocked it, will try again on next interaction
+        }
+      }
+      document.removeEventListener("click", firstInteractionHandler);
+    };
+    document.addEventListener("click", firstInteractionHandler);
+    // Manual toggle button
+    btn.addEventListener("click", async (e) => {
+      e.stopPropagation();
       try {
-        if (audio.paused) { await audio.play(); setPlaying(); }
-        else { audio.pause(); setPaused(); }
-      } catch (e) { setPaused(); }
+        if (audio.paused) {
+          await audio.play();
+          musicStarted = true;
+          setPlaying();
+        } else {
+          audio.pause();
+          setPaused();
+        }
+      } catch (err) {
+        setPaused();
+      }
     });
   })();
 
