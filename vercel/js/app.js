@@ -4,6 +4,19 @@
   const groom = wedding.groom.display || wedding.groom.first;
   const set = (id, value) => { const element = $(id); if (element) element.textContent = value; };
   const maps = (query) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  const toCalendarUtc = (date, time, timeZone) => {
+    const wallClock = new Date(`${date}T${time}:00Z`);
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: timeZone || "UTC",
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23",
+    }).formatToParts(wallClock);
+    const local = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+    const offset = Date.UTC(local.year, local.month - 1, local.day, local.hour, local.minute, local.second) - wallClock.getTime();
+    return new Date(wallClock.getTime() - offset).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+  };
+  const escapeCalendarText = (value) => String(value || "")
+    .replace(/\\/g, "\\\\").replace(/\r\n|\r|\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
 
   const invitationStateKey = "wedding-invitation-open";
   const gate = $("invitationGate");
@@ -81,6 +94,39 @@
     const end = activeEvent.date.replaceAll("-", "") + "T" + activeEvent.endTime.replace(":", "") + "00";
     $("calGoogle").href = `https://calendar.google.com/calendar/render?${new URLSearchParams({ action: "TEMPLATE", text: `${activeEvent.title} — ${wedding.bride.first} & ${groom}`, dates: `${start}/${end}` })}`;
     $("calSheet").hidden = false;
+  });
+  $("calIcs")?.addEventListener("click", () => {
+    const now = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+    const eventTitle = `${activeEvent.title} — ${wedding.bride.first} & ${groom}`;
+    const location = [activeEvent.venueName, activeEvent.address].filter(Boolean).join(", ");
+    const calendar = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Wedding Invitation//Calendar Event//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      `UID:${activeEvent.date}@wedding-invitation`,
+      `DTSTAMP:${now}`,
+      `DTSTART:${toCalendarUtc(activeEvent.date, activeEvent.startTime, activeEvent.timezone)}`,
+      `DTEND:${toCalendarUtc(activeEvent.date, activeEvent.endTime, activeEvent.timezone)}`,
+      `SUMMARY:${escapeCalendarText(eventTitle)}`,
+      `LOCATION:${escapeCalendarText(location)}`,
+      `DESCRIPTION:${escapeCalendarText(activeEvent.notes)}`,
+      "STATUS:CONFIRMED",
+      "END:VEVENT",
+      "END:VCALENDAR",
+      "",
+    ].join("\r\n");
+    const file = new Blob([calendar], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(file);
+    const download = document.createElement("a");
+    download.href = url;
+    download.download = `${activeEvent.date}-wedding.ics`;
+    document.body.append(download);
+    download.click();
+    download.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
   $("calClose")?.addEventListener("click", () => { $("calSheet").hidden = true; });
 
